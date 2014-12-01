@@ -7,7 +7,7 @@ function hppcd () {
     echo "$dir : No such file or directory"
 	fi
 }
-function addhpppref () {
+function addhppcd () {
   PWD=$(pwd)
   name=""
   if [ "$#" -gt 0 ]; then
