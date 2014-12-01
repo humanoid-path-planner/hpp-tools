@@ -1,0 +1,59 @@
+#!/bin/bash
+
+if [ $# -gt 0 ]; then
+	pgname=$1
+else
+	pgname="hpp-manipulation-server"
+fi
+
+function ctrl_c () {
+	killtail
+	exit 1
+}
+
+function killtail() {
+	if [ -n "$tail_pid" ]; then
+		kill $tail_pid
+		wait $tail_pid 2> /dev/null
+		tail_pid=""
+	fi
+}
+
+echo_() {
+	echo "$@" >&2
+}
+
+LOG_DIR=$DEVEL_DIR/install/var/log/hpp
+
+pid=""
+test -z "$LOGTAIL_TYPE" && LOGTAIL_TYPE="journal"
+type=$LOGTAIL_TYPE
+delay_short=5
+delay_long=10
+delay=$delay_long
+trap ctrl_c INT
+echo_ "=========================== Checking $pgname logs ============================"
+while [ 0 -eq 0 ]; do
+	new_pid=`pidof $pgname`
+	if [ ! "$pid" == "$new_pid" ]; then
+		pid=$new_pid
+		if [ -n "$pid" ]; then
+			if [ -e $LOG_DIR/$type.$pid.log ]; then 
+				delay=$delay_long
+				echo_ "======================= New $pgname session - $pid ======================="
+				killtail
+				tail -f $LOG_DIR/$type.$pid.log &
+				tail_pid=$!
+			else
+				delay=$delay_short
+				pid=""
+			fi
+		else
+			if [ -n "$tail_pid" ]; then
+				echo_ "----------------------------- No $pgname session -----------------------------"
+			fi
+			killtail
+		fi
+	fi
+	sleep $delay
+done
