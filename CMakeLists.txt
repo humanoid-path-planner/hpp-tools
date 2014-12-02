@@ -41,3 +41,11 @@ INSTALL (FILES
   )
 
 FILE (MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/etc/hpp-tools/hppcd)
+
+# Add a target that creates some default links
+CONFIGURE_FILE (${CMAKE_SOURCE_DIR}/install/hppcd-defaults
+  ${CMAKE_BINARY_DIR}/install/hppcd-defaults
+  @ONLY)
+ADD_CUSTOM_TARGET (hppcd-defaults
+  COMMAND ${CMAKE_BINARY_DIR}/install/hppcd-defaults
+  )

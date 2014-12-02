@@ -1,0 +1,35 @@
+#!/bin/bash
+
+HPPTOOLS_DIR=@CMAKE_INSTALL_PREFIX@/etc/hpp-tools
+
+function fn_exists () {
+  return $(type -t $1 | grep -q "function")
+}
+
+function addlink () {
+  if [ ! -e "${HPPTOOLS_DIR}/hppcd/$2" ]; then
+    echo "Installing link $1 -> $2"
+    addhppcd $1 $2 
+  else
+    echo "Target $2 already exists."
+  fi
+}
+
+[ ! -f "${HPPTOOLS_DIR}/bashrc" ] && echo "${HPPTOOLS_DIR}/bashrc not found. Did you do \"make install\" first ?" && exit 1
+source ${HPPTOOLS_DIR}/bashrc
+
+if ! fn_exists hppcd && ! fn_exists addhppcd; then
+  echo "hppcd does not seem to be installed properly."
+  exit 1
+fi
+
+addlink @CMAKE_INSTALL_PREFIX@ install
+
+## Everything depends on HPP from there.
+# Environment variable DEVEL_DIR should be set as described in hpp-doc install procedure.
+[ -z "${DEVEL_DIR}" ] && exit 0
+[ -d "${DEVEL_DIR}/src" ] && addlink ${DEVEL_DIR}/src source
+[ -d "${DEVEL_DIR}/src/hpp-core" ] && addlink ${DEVEL_DIR}/src/hpp-core core
+[ -d "${DEVEL_DIR}/src/hpp-corbaserver" ] && addlink ${DEVEL_DIR}/src/hpp-corbaserver corbaserver
+[ -d "${DEVEL_DIR}/src/hpp-manipulation" ] && addlink ${DEVEL_DIR}/src/hpp-manipulation manipulation
+[ -d "${DEVEL_DIR}/src/hpp-manipulation-corba" ] && addlink ${DEVEL_DIR}/src/hpp-manipulation-corba corba-manipulation

@@ -18,6 +18,11 @@ You need to source the file `${CMAKE_INSTALL_PREFIX}/etc/hpp-tools/bashrc`. If y
 [ -f "${DEVEL_DIR}/install/etc/hpp-tools/bashrc" ] && source "${DEVEL_DIR}/install/etc/hpp-tools/bashrc"
 ```
 
+Optionally, you can use make target `hppcd-defaults` to install some link for HPP software:
+```sh
+$ make hppcd-defaults
+```
+
 ### Usage
 
 * `addhppcd [<dir> [<alias>]]` to add a folder to `hppcd`
