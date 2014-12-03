@@ -1,6 +1,10 @@
 HERE=`cd $(dirname ${BASH_SOURCE[0]}) && pwd`
 
-export HPPCD_PATH="$HERE/hppcd"
+if [ -n "$HPPCD_PATH" ]; then
+  export HPPCD_PATH="$HERE/hppcd:$HPPCD_PATH"
+else
+  export HPPCD_PATH="$HERE/hppcd"
+fi
 
 [ -f "$HERE/bash/functions.sh" ] && source "$HERE/bash/functions.sh"
 [ -f "$HERE/bash/aliases.sh" ] && source "$HERE/bash/aliases.sh"
