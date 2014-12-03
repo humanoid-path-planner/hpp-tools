@@ -1,13 +1,26 @@
 function hppcd () {
-  dir="$HPPCD_PATH/$1"
-  if [ -d "$dir" ]; then
-    cd -P "$dir"
-    pwd
-  else
-    echo "$dir : No such file or directory"
-	fi
+  local oldIFS IFS paths
+  oldIFS=${IFS}
+  IFS=':'
+  read -a paths <<< "${HPPCD_PATH}"
+  IFS=${oldIFS}
+  for p in "${paths[@]}"; do
+    dir="$p/$1"
+    if [ -d "$dir" ]; then
+      cd -P "$dir"
+      pwd
+      return
+    fi
+  done
+  echo "$1 : No such directory"
 }
+
 function addhppcd () {
+  local oldIFS IFS paths
+  oldIFS=${IFS}
+  IFS=':'
+  read -a paths <<< "${HPPCD_PATH}"
+  IFS=${oldIFS}
   PWD=$(pwd)
   name=""
   if [ "$#" -gt 0 ]; then
@@ -25,20 +38,29 @@ function addhppcd () {
   echo $DIR
   if [ -d "${DIR}" ]; then
     NAME="$(basename ${DIR})"
-    ln -s "${DIR}" "$HPPCD_PATH/${name}"
+    ln -s "${DIR}" "${paths[0]}/${name}"
   else
     echo "$1 : Not a directory"
   fi
 }
 
+# bash-completion
 _hppcd () {
-  _oldpwd=$OLDPWD
+  local oldIFS oldpwd curdir tmp paths
+  oldpwd=$OLDPWD
   curdir=$(pwd)
-  cd $HPPCD_PATH
-  tmp=( $(compgen -d -- "${COMP_WORDS[$COMP_CWORD]}" ))
-  COMPREPLY=( "${tmp[@]// /\ }" )
+  oldIFS=${IFS}
+  IFS=':'
+  read -a paths <<< "${HPPCD_PATH}"
+  IFS=${oldIFS}
+  COMPREPLY=()
+  for p in "${paths[@]}"; do
+    cd $p
+    tmp=($(compgen -d -- "${COMP_WORDS[$COMP_CWORD]}"))
+    COMPREPLY=("${COMPREPLY[@]}" "${tmp[@]}")
+  done
   cd $curdir
-  export OLDPWD=${_oldpwd}
+  export OLDPWD=${oldpwd}
 }
 
 complete -o nospace -S "/" -F _hppcd hppcd
