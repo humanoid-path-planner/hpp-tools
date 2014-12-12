@@ -1,0 +1,32 @@
+#!/bin/bash
+#
+# Copyright (c) 2010, 2011 CNRS
+# Authors: Joseph Mirabel
+#
+#
+# This file is part of hpp-tools
+# hpp-tools is free software: you can redistribute it
+# and/or modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation, either version
+# 3 of the License, or (at your option) any later version.
+#
+# hpp-tools is distributed in the hope that it will be
+# useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+# of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Lesser Public License for more details.  You should have
+# received a copy of the GNU Lesser General Public License along with
+# hpp-tools  If not, see
+# <http://www.gnu.org/licenses/>.
+
+GIT="git --no-pager -c status.showUntrackedFiles=no"
+
+current_dir=`pwd`
+
+for child_dir in $(ls); do
+  test -d "$child_dir" || continue
+  test -d "$child_dir/.git" || continue
+  cd "$child_dir"
+  echo -e "\033[1;36m------- Folder $child_dir ---------------\033[0m"
+  $GIT $@
+  cd "$current_dir"
+done

@@ -8,3 +8,4 @@ fi
 
 [ -f "$HERE/bash/functions.sh" ] && source "$HERE/bash/functions.sh"
 [ -f "$HERE/bash/aliases.sh" ] && source "$HERE/bash/aliases.sh"
+[ -f "$HERE/bash/completion.sh" ] && source "$HERE/bash/completion.sh"

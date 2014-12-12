@@ -31,11 +31,13 @@ INSTALL (FILES
 INSTALL (FILES
   etc/bash/aliases.sh
   etc/bash/functions.sh
+  etc/bash/completion.sh
   DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/hpp-tools/bash
   )
 
 INSTALL (FILES
   bin/hpplog
+  bin/recursivegit
   PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
   DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
   )
