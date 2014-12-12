@@ -43,24 +43,3 @@ function addhppcd () {
     echo "$1 : Not a directory"
   fi
 }
-
-# bash-completion
-_hppcd () {
-  local oldIFS oldpwd curdir tmp paths
-  oldpwd=$OLDPWD
-  curdir=$(pwd)
-  oldIFS=${IFS}
-  IFS=':'
-  read -a paths <<< "${HPPCD_PATH}"
-  IFS=${oldIFS}
-  COMPREPLY=()
-  for p in "${paths[@]}"; do
-    cd $p
-    tmp=($(compgen -d -- "${COMP_WORDS[$COMP_CWORD]}"))
-    COMPREPLY=("${COMPREPLY[@]}" "${tmp[@]}")
-  done
-  cd $curdir
-  export OLDPWD=${oldpwd}
-}
-
-complete -o nospace -S "/" -F _hppcd hppcd
