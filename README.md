@@ -3,6 +3,7 @@
 This package contains some convenient command line tool for [HPP]. Current tools are:
   - hppcd
   - hpplog
+  - change_develconfig
   - recursivegit
   - wgit
 
