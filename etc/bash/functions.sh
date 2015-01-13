@@ -62,3 +62,12 @@ function addhppcd () {
     echo "$1 : Not a directory"
   fi
 }
+
+function gdbvim () {
+  file=$1
+  if [ -z "$file" ]; then
+    vim -R -c "let pyclewn_args=\"--gdb=async\"" -c "Pyclewn" -c Cmapkeys -c Cmymapkeys -c ClaunchxTerm
+  else
+    vim -R -c "let pyclewn_args=\"--gdb=async\"" -c "Pyclewn" -c "Cfile $file" -c Cmapkeys -c Cmymapkeys -c ClaunchxTerm
+  fi
+}

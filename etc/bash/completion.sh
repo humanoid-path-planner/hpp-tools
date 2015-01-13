@@ -21,6 +21,9 @@
 complete -F _git wgit
 complete -F _git recursivegit
 
+# gdbvim
+complete -c -f gdbvim
+
 # hppcd
 _hppcd () {
   local oldIFS oldpwd curdir tmp paths

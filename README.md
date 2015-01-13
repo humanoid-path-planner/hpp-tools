@@ -1,11 +1,16 @@
 # hpp-tools
 
-This package contains some convenient command line tool for [HPP]. Current tools are:
+This package contains some convenient command line tool for [hpp]. Current tools are:
   - hppcd
   - hpplog
   - change_develconfig
   - recursivegit
   - wgit
+  - gdbvim
+
+### Dependencies
+
+For `gdbvim` command, you must install the vim plugin [pyclewn].
 
 ### Installation
 
@@ -31,5 +36,7 @@ $ make hppcd-defaults
 * `addhppcd [<dir> [<alias>]]` to add a folder to `hppcd`
 * `hppcd <alias>` to go the folder linked to 'alias'.
 * `hpplog [binary-name]` automatically tail the logs - to compress hpp-util output, one can use the bash alias `hpplog | filterhppoutput`. The argument is the name of the binary file writting the logs. It defaults to hpp-manipulation-server.
+* `gdbvim [file-or-command]`
 
-[hpp]:https://github.com/humanoid-path-planner/hpp-doc
+[hpp]:https://github.com/humanoid-path-planner/hpp-doc "HPP"
+[pyclewn]:http://pyclewn.sourceforge.net/ "Pyclewn"
