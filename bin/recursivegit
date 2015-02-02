@@ -18,7 +18,7 @@
 # hpp-tools  If not, see
 # <http://www.gnu.org/licenses/>.
 
-GIT="git --no-pager -c status.showUntrackedFiles=no -c color.status=always"
+GIT="git --no-pager -c status.showUntrackedFiles=no"
 short_output=0
 
 output=/dev/stdout
@@ -35,18 +35,26 @@ _empty () {
   fi
 }
 
-while getopts "h?s" opt; do
+while getopts "h?scC" opt; do
   case "$opt" in
     h|\?)
-      echo "Usage: $(basename $0) [-h] [-s] <command>\n"
+      echo "Usage: $(basename $0) [-h] [-s] [-c] [-C] <command>\n"
       echo "Options"
       echo "\t-h\tthis help message"
       echo "\t-s\thide git folder which did not generate any output"
+      echo "\t-c\tset color.status to always (see git-status man page)"
+      echo "\t-C\tset color.status to never"
       exit 0
       ;;
     s)
       output=$(mktemp)
       short_output=1
+      ;;
+    c)
+      GIT="${GIT} -c color.status=always"
+      ;;
+    c)
+      GIT="${GIT} -c color.status=never"
       ;;
   esac
 done
