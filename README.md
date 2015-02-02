@@ -7,12 +7,13 @@ This package contains some convenient command line tool for [hpp]. Current tools
   - recursivegit
   - wgit
   - gdbvim
+  - hppautorestart
 
-### Dependencies
+## Dependencies
 
 For `gdbvim` command, you must install the vim plugin [pyclewn].
 
-### Installation
+## Installation
 
 First, the classic procedure:
 ```sh
@@ -31,12 +32,26 @@ Optionally, you can use make target `hppcd-defaults` to install some link for HP
 $ make hppcd-defaults
 ```
 
-### Usage
+## Usage
 
 * `addhppcd [<dir> [<alias>]]` to add a folder to `hppcd`
 * `hppcd <alias>` to go the folder linked to 'alias'.
 * `hpplog [binary-name]` automatically tail the logs - to compress hpp-util output, one can use the bash alias `hpplog | filterhppoutput`. The argument is the name of the binary file writting the logs. It defaults to hpp-manipulation-server.
 * `gdbvim [file-or-command]`
+
+### hppautorestart
+* `hppautorestart <command>`
+This automatically restarts the `command` when it crashes or when you enter `hpprestart` in another terminal.
+* `hpprestart`
+This restarts all the command that have been launched using `hppautorestart`.
+
+### git helpers
+First, here is a list of interesting git alias (Use `git config --global alias.<aliasname> <alias-command>`):
+* `log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all`
+* `log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all`
+
+* `recursivegit [git-command]` applies a git command on all subdirectories that are git repositories. To know the general state of your source repository: `recursivegit status --short --branch`. For fetching all repository: `recursivegit fetch --all`...
+* `wgit` simply combines command `watch` and `git`. Try it with one of the alias log command above !
 
 [hpp]:https://github.com/humanoid-path-planner/hpp-doc "HPP"
 [pyclewn]:http://pyclewn.sourceforge.net/ "Pyclewn"
