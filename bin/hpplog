@@ -53,25 +53,29 @@ trap ctrl_c INT
 echo_ "=========================== Checking $pgname logs ============================"
 while [ 0 -eq 0 ]; do
 	new_pid=`pidof $pgname`
-	if [ ! "$pid" == "$new_pid" ]; then
-		pid=$new_pid
-		if [ -n "$pid" ]; then
-			if [ -e $LOG_DIR/$type.$pid.log ]; then 
-				delay=$delay_long
-				echo_ "======================= New $pgname session - $pid ======================="
-				killtail
-				tail -f $LOG_DIR/$type.$pid.log &
-				tail_pid=$!
-			else
-				delay=$delay_short
-				pid=""
-			fi
-		else
-			if [ -n "$tail_pid" ]; then
-				echo_ "----------------------------- No $pgname session -----------------------------"
-			fi
-			killtail
-		fi
-	fi
+  if [ ! $(echo $new_pid | grep -o " " | wc -l ) -eq 0 ]; then
+    echo_ "======================= Several session detected ======================="
+  else
+    if [ ! "$pid" == "$new_pid" ]; then
+      pid=$new_pid
+      if [ -n "$pid" ]; then
+        if [ -e $LOG_DIR/$type.$pid.log ]; then
+          delay=$delay_long
+          echo_ "======================= New $pgname session - $pid ======================="
+          killtail
+          tail -f $LOG_DIR/$type.$pid.log &
+          tail_pid=$!
+        else
+          delay=$delay_short
+          pid=""
+        fi
+      else
+        if [ -n "$tail_pid" ]; then
+          echo_ "----------------------------- No $pgname session -----------------------------"
+        fi
+        killtail
+      fi
+    fi
+  fi
 	sleep $delay
 done

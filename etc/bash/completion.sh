@@ -27,6 +27,9 @@ complete -c -f gdbvim
 # hpplog
 complete -c hpplog
 
+# hppautorestart 
+complete -c hppautorestart
+
 # hppcd
 _hppcd () {
   local oldIFS oldpwd curdir tmp paths
