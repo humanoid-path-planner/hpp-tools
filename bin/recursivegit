@@ -24,7 +24,8 @@ current_dir=`pwd`
 
 for child_dir in $(ls); do
   test -d "$child_dir" || continue
-  test -d "$child_dir/.git" || continue
+  ## If child_dir contains a submodule, .git is a file and not a directory
+  test -d "$child_dir/.git" -o -f "$child_dir/.git" || continue
   cd "$child_dir"
   echo -e "\033[1;36m------- Folder $child_dir ---------------\033[0m"
   $GIT $@
