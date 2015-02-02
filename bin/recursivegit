@@ -18,16 +18,60 @@
 # hpp-tools  If not, see
 # <http://www.gnu.org/licenses/>.
 
-GIT="git --no-pager -c status.showUntrackedFiles=no"
+GIT="git --no-pager -c status.showUntrackedFiles=no -c color.status=always"
+short_output=0
+
+output=/dev/stdout
+_flush () {
+  #echo "flushing"
+  if [ $short_output -eq 1 ]; then
+    cat $output
+  fi
+}
+_empty () {
+  #echo "emptying"
+  if [ $short_output -eq 1 ]; then
+    echo "" >$output
+  fi
+}
+
+while getopts "h?s" opt; do
+  case "$opt" in
+    h|\?)
+      echo "Usage: $(basename $0) [-h] [-s] <command>\n"
+      echo "Options"
+      echo "\t-h\tthis help message"
+      echo "\t-s\thide git folder which did not generate any output"
+      exit 0
+      ;;
+    s)
+      output=$(mktemp)
+      short_output=1
+      ;;
+  esac
+done
 
 current_dir=`pwd`
 
+shift `expr ${OPTIND} - 1`
+#echo $@
 for child_dir in $(ls); do
   test -d "$child_dir" || continue
   ## If child_dir contains a submodule, .git is a file and not a directory
   test -d "$child_dir/.git" -o -f "$child_dir/.git" || continue
   cd "$child_dir"
-  echo -e "\033[1;36m------- Folder $child_dir ---------------\033[0m"
-  $GIT $@
+  echo -e "\033[1;36m------- Folder $child_dir ---------------\033[0m" >$output
+  if [ "$short_output" -eq 1 ]; then
+    if [[ ! $($GIT $@ | tee -a $output | wc -l) -eq 0 ]]; then
+      _flush
+    fi
+    _empty
+  else
+    $GIT $@
+  fi
   cd "$current_dir"
 done
+
+if [ "$short_output" -eq 1 ]; then
+  rm $output
+fi
