@@ -1,0 +1,69 @@
+#!/bin/bash
+#
+# Copyright (c) 2015 CNRS
+# Authors: Joseph Mirabel
+#
+#
+# This file is part of hpp-tools
+# hpp-tools is free software: you can redistribute it
+# and/or modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation, either version
+# 3 of the License, or (at your option) any later version.
+#
+# hpp-tools is distributed in the hope that it will be
+# useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+# of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Lesser Public License for more details.  You should have
+# received a copy of the GNU Lesser General Public License along with
+# hpp-tools  If not, see
+# <http://www.gnu.org/licenses/>.
+
+if [ $# -eq 0 ]; then
+  echo "Usage $0 <your-command>"
+  exit 1
+fi
+
+me=$0
+cmd="$@"
+
+me_pid=$$
+
+function _usr1 () {
+	_killcmd
+}
+
+function _start () {
+  _echo "=== Restarting ${cmd} ... ==="
+  $cmd &
+  cmd_pid=$!
+  wait $cmd_pid 2> /dev/null
+  cmd_pid=""
+}
+
+function _killcmd () {
+	if [ -n "$cmd_pid" ]; then
+		kill $cmd_pid
+    _echo "=== Killing ${cmd_pid} ... ==="
+		wait $cmd_pid 2> /dev/null
+		cmd_pid=""
+	fi
+}
+
+function _echo () {
+	echo "$@" >&2
+}
+
+function _onquit () {
+  _killcmd
+  exit 1
+}
+
+cmd_pid=""
+delay=5
+
+trap _usr1 USR1
+trap _onquit INT
+
+while [ 1 ]; do
+  _start
+done
