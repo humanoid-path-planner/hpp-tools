@@ -35,15 +35,16 @@ _empty () {
   fi
 }
 
-while getopts "h?scC" opt; do
+while getopts "h?scCv" opt; do
   case "$opt" in
     h|\?)
-      echo "Usage: $(basename $0) [-h] [-s] [-c] [-C] <command>\n"
+      echo -e "Usage: $(basename $0) [-h] [-s] [-c] [-C] <command>\n"
       echo "Options"
-      echo "\t-h\tthis help message"
-      echo "\t-s\thide git folder which did not generate any output"
-      echo "\t-c\tset color.status to always (see git-status man page)"
-      echo "\t-C\tset color.status to never"
+      echo -e "\t-h\tthis help message"
+      echo -e "\t-s\thide git folders which do not generate any output"
+      echo -e "\t-c\tset color.status to always (see git-config man page)"
+      echo -e "\t-C\tset color.status to never"
+      echo -e "\t-v\tshow version and exit"
       exit 0
       ;;
     s)
@@ -56,6 +57,11 @@ while getopts "h?scC" opt; do
     c)
       GIT="${GIT} -c color.status=never"
       ;;
+    v)
+      echo -e "Project:\t@PROJECT_NAME@"
+      echo -e "Name   :\t$(basename $0)"
+      echo -e "Version:\t@PROJECT_VERSION@"
+      echo -e "URL    :\t@PROJECT_URL@"
   esac
 done
 

@@ -21,27 +21,34 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 SET(PROJECT_NAME hpp-tools)
 SET(PROJECT_DESCRIPTION "Tools for HPP.")
-SET(PROJECT_URL "https://github.com/billx09/hpp-tools")
+SET(PROJECT_URL "https://github.com/jmirabel/hpp-tools")
+SET(PROJECT_VERSION 1.0.0)
+
+CONFIGURE_FILE (
+  bin/recursivegit
+  ${CMAKE_BINARY_DIR}/bin/recursivegit
+  @ONLY
+  )
 
 INSTALL (FILES
   etc/bashrc
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/hpp-tools
+  DESTINATION etc/hpp-tools
   )
 
 INSTALL (FILES
   etc/bash/aliases.sh
   etc/bash/functions.sh
   etc/bash/completion.sh
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/hpp-tools/bash
+  DESTINATION etc/hpp-tools/bash
   )
 
 INSTALL (FILES
   bin/hpplog
-  bin/recursivegit
+  ${CMAKE_BINARY_DIR}/bin/recursivegit
   bin/change_develconfig
   bin/hppautorestart
   PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+  DESTINATION bin
   )
 
 FILE (MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/etc/hpp-tools/hppcd)
