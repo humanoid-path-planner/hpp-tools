@@ -47,6 +47,7 @@ INSTALL (FILES
   ${CMAKE_BINARY_DIR}/bin/recursivegit
   bin/change_develconfig
   bin/hppautorestart
+  bin/interrupt-planning
   PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
   DESTINATION bin
   )
