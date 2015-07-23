@@ -9,7 +9,7 @@ function fn_exists () {
 function addlink () {
   if [ ! -e "${HPPTOOLS_DIR}/hppcd/$2" ]; then
     echo "Installing link $1 -> $2"
-    addhppcd $1 $2 
+    addhppcd $1 $2 > /dev/null
   else
     echo "Target $2 already exists."
   fi
