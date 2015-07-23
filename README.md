@@ -34,9 +34,10 @@ $ make hppcd-defaults
 
 ## Usage
 
-* `addhppcd [<dir> [<alias>]]` to add a folder to `hppcd`
-* `hppcd <alias>` to go the folder linked to 'alias'. It is compliant with `cd -`.
-* `hpplog [binary-name]` automatically tail the logs - to compress hpp-util output, one can use the bash alias `hpplog | filterhppoutput`. The argument is the name of the binary file writting the logs. It defaults to hpp-manipulation-server.
+* `addhppcd [<dir> [<alias>]]` adds a folder to `hppcd`
+* `hppcd <alias>` goes the folder linked to 'alias'. It is compliant with `cd -`.
+* `hpplog [binary-name]` automatically tails the logs of the running hpp server. If no hpp server is running, it waits. The argument is the name of the binary file writting the logs. It defaults to hpp-manipulation-server.
+* `filterhppoutput` compresses hpp-util output. Use it like this: `hpplog | filterhppoutput`.
 * `gdbvim [file-or-command]`
 
 ### hppautorestart
@@ -47,8 +48,8 @@ This restarts all the command that have been launched using `hppautorestart`.
 
 ### git helpers
 First, here is a list of interesting git alias (Use `git config --global alias.<aliasname> <alias-command>`):
-* `log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all`
-* `log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all`
+* condensed pretty logs: `log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all`
+* expanded pretty logs: `log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all`
 
 * `recursivegit [git-command]` applies a git command on all subdirectories that are git repositories. To know the general state of your source repository: `recursivegit status --short --branch`. For fetching all repository: `recursivegit fetch --all`...
 * `wgit` simply combines command `watch` and `git`. Try it with one of the alias log command above !

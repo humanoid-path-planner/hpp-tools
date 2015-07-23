@@ -1,0 +1,2 @@
+Link in this repository will be read by the command *hppcd*.
+To add a link manually, just usr *ln -s <your directory> <alias-for-hppcd>*
