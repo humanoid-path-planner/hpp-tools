@@ -35,7 +35,7 @@ $ make hppcd-defaults
 ## Usage
 
 * `addhppcd [<dir> [<alias>]]` to add a folder to `hppcd`
-* `hppcd <alias>` to go the folder linked to 'alias'.
+* `hppcd <alias>` to go the folder linked to 'alias'. It is compliant with `cd -`.
 * `hpplog [binary-name]` automatically tail the logs - to compress hpp-util output, one can use the bash alias `hpplog | filterhppoutput`. The argument is the name of the binary file writting the logs. It defaults to hpp-manipulation-server.
 * `gdbvim [file-or-command]`
 

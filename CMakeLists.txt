@@ -52,7 +52,8 @@ INSTALL (FILES
   DESTINATION bin
   )
 
-FILE (MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/etc/hpp-tools/hppcd)
+INSTALL (FILES install/README
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/hpp-tools/hppcd)
 
 # Add a target that creates some default links
 CONFIGURE_FILE (${CMAKE_SOURCE_DIR}/install/hppcd-defaults
