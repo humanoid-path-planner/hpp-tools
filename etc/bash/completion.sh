@@ -18,8 +18,10 @@
 # <http://www.gnu.org/licenses/>.
 
 # Git
-complete -F _git wgit
-complete -F _git recursivegit
+_wgit () { _xfunc git _git; }
+complete -F _wgit wgit
+_recursivegit () { _xfunc git _git; }
+complete -F _recursivegit recursivegit
 
 # gdbvim
 complete -c -f gdbvim
