@@ -1,0 +1,4 @@
+python
+sys.path.insert(0,'@CMAKE_INSTALL_PREFIX@/etc/gdb/py')
+import hpp_gepetto_viewer
+end

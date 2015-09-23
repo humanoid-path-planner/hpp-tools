@@ -55,6 +55,8 @@ INSTALL (FILES
 INSTALL (FILES install/README
   DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/hpp-tools/hppcd)
 
+ADD_SUBDIRECTORY (gdb)
+
 # Add a target that creates some default links
 CONFIGURE_FILE (${CMAKE_SOURCE_DIR}/install/hppcd-defaults
   ${CMAKE_BINARY_DIR}/install/hppcd-defaults

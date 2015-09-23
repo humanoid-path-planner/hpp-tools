@@ -8,6 +8,7 @@ This package contains some convenient command line tool for [hpp]. Current tools
   - wgit
   - gdbvim
   - hppautorestart
+  - a gdb command to visualize configuration (See [GDB Command](#gdb-command))
 
 ## Dependencies
 
@@ -53,6 +54,26 @@ First, here is a list of interesting git alias (Use `git config --global alias.<
 
 * `recursivegit [git-command]` applies a git command on all subdirectories that are git repositories. To know the general state of your source repository: `recursivegit status --short --branch`. For fetching all repository: `recursivegit fetch --all`...
 * `wgit` simply combines command `watch` and `git`. Try it with one of the alias log command above !
+
+### GDB Command
+
+The command `forward-geometry` enables you to display configuration directly in a viewer (gepetto-viewer or hpp-gui). The requirement for this command to work are the following:
+* compile `gdb` with python 2.7 support (and not python 3.4). You may skip this if you already have the good support. GDB 7.7.1 is by default compile with python 3.4
+  * download the source: run `cd /local/src && apt-get source gdb` in a folder (I recommend `/local/src/`)
+  * configure and install: `cd /local/src/gdb-7.7.1`, `./configure --prefix=/local --with-python=python2.7` and `sudo make install`
+  * make sure the binary is available: `which gdb` should give you the path to the installed executable
+* add the following lines to `~/.gdbinit`:
+```
+python
+import os
+gdb.execute ("directory " + os.environ["DEVEL_DIR"] + "/install/etc/gdb/")
+end
+source gdbinit
+
+# If you do not use the DEVEL_DIR environment variable, then use this instead.
+# source ${CMAKE_INSTALL_PREFIX}/install/etc/gdb/gdbinit
+```
+* run `help forward-geometry` in the gdb cli.
 
 [hpp]:https://github.com/humanoid-path-planner/hpp-doc "HPP"
 [pyclewn]:http://pyclewn.sourceforge.net/ "Pyclewn"
