@@ -44,6 +44,31 @@
 import gdb
 import re
 import itertools
+import sys
+
+if sys.version_info[0] > 2:
+    ### Python 3 stuff
+    Iterator = object
+    # Python 3 folds these into the normal functions.
+    imap = map
+    izip = zip
+    # Also, int subsumes long
+    long = int
+else:
+    ### Python 2 stuff
+    class Iterator:
+        """Compatibility mixin for iterators
+
+        Instead of writing next() methods for iterators, write
+        __next__() methods and use this mixin to make them work in
+        Python 2 as well as Python 3.
+
+        Idea stolen from the "six" documentation:
+        <http://pythonhosted.org/six/#six.Iterator>
+        """
+
+        def next(self):
+            return self.__next__()
 
 
 class EigenMatrixPrinter:
@@ -90,7 +115,7 @@ class EigenMatrixPrinter:
 			self.data = self.data['array']
 			self.data = self.data.cast(self.innerType.pointer())
 			
-	class _iterator:
+	class _iterator(Iterator):
 		def __init__ (self, rows, cols, dataPtr, rowMajor):
 			self.rows = rows
 			self.cols = cols
@@ -156,7 +181,7 @@ class EigenQuaternionPrinter:
 		self.data = self.val['m_coeffs']['m_storage']['m_data']['array']
 		self.data = self.data.cast(self.innerType.pointer())
 			
-	class _iterator:
+	class _iterator(Iterator):
 		def __init__ (self, dataPtr):
 			self.dataPtr = dataPtr
 			self.currentElement = 0
