@@ -18,9 +18,21 @@
 
 CONFIGURE_FILE (gdbinit.in
   ${CMAKE_CURRENT_BINARY_DIR}/gdbinit
-  @ONLY)
-INSTALL (FILES ${CMAKE_CURRENT_BINARY_DIR}/gdbinit
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/gdb)
+  @ONLY
+  )
 
-INSTALL (FILES py/hpp_gepetto_viewer.py
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/gdb/py)
+INSTALL (FILES ${CMAKE_CURRENT_BINARY_DIR}/gdbinit
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/gdb
+  )
+
+INSTALL (FILES
+  py/hpp_gepetto_viewer.py
+  py/eigen.py
+  py/__init__.py
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/gdb/py
+  )
+
+INSTALL (FILES
+  printers/stl_container_printers
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/gdb/printers
+  )
