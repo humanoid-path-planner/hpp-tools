@@ -62,8 +62,7 @@ while [ 0 -eq 0 ]; do
         if [ -e $LOG_DIR/$type.$pid.log ]; then
           delay=$delay_long
           echo_ "======================= New $pgname session - $pid ======================="
-          killtail
-          tail -f $LOG_DIR/$type.$pid.log &
+          tail --pid=$pid -f $LOG_DIR/$type.$pid.log &
           tail_pid=$!
         else
           delay=$delay_short
@@ -73,7 +72,6 @@ while [ 0 -eq 0 ]; do
         if [ -n "$tail_pid" ]; then
           echo_ "----------------------------- No $pgname session -----------------------------"
         fi
-        killtail
       fi
     fi
   fi
