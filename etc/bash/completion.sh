@@ -25,6 +25,7 @@ complete -F _recursivegit recursivegit
 
 # gdbvim
 complete -c -f gdbvim
+complete -c -f gdbgvim
 
 # hpplog
 complete -c hpplog
