@@ -1,0 +1,68 @@
+#/bin/bash
+#
+# vim: ft=sh
+
+makeargs="-s -j4"
+makecommand="install"
+BDIR=build
+
+function usage() {
+  echo -e "Usage: $0 <options> <packages> <options> <packages> ..."
+  echo -e ""
+  echo -e "Options are:"
+  echo -e "-h|--help"
+  echo -e "-d|--debug       \tequivalent to --build-dir build"
+  echo -e "-r|--release     \tequivalent to --build-dir build-rel"
+  echo -e "--build-dir      \t[${BDIR}]"
+  echo -e "-c|--make-command\t[${makecommand}]"
+  echo -e "-a|--make-args   \t[${makeargs}]"
+  echo -e ""
+  echo -e "Examples:"
+  echo -e "$0 -d hpp-core -r hpp-corbaserver -d hpp-manipulation -r hpp-manipulation-urdf hpp-manipulation-corba"
+}
+
+show_usage=true
+while  [[ $# > 0 ]]
+do
+  key="$1"
+
+  case $key in
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    -d|--debug)
+      BDIR=build
+      ;;
+    -r|--release)
+      BDIR=build-rel
+      ;;
+    --build-dir)
+      BDIR="$2"
+      shift # past argument
+      ;;
+    -a|--make-args)
+      makeargs=$2
+      shift
+      ;;
+    -c|--make-command)
+      makecommand=$2
+      shift
+      ;;
+      *)
+      # Run make on current package
+      echo "========="
+      echo "cd ${DEVEL_DIR}/src/$1/$BDIR"
+      echo "make $makeargs $makecommand"
+      echo "========="
+      cd "${DEVEL_DIR}/src/$1/$BDIR" && make $makeargs $makecommand
+      show_usage=false
+      ;;
+  esac
+  shift # past argument or value
+done
+
+if $show_usage ; then
+  usage
+  exit 1
+fi
