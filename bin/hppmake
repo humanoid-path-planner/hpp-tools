@@ -14,9 +14,9 @@ function usage() {
   echo -e "-h|--help"
   echo -e "-d|--debug       \tequivalent to --build-dir build"
   echo -e "-r|--release     \tequivalent to --build-dir build-rel"
-  echo -e "--build-dir      \t[${BDIR}]"
-  echo -e "-c|--make-command\t[${makecommand}]"
-  echo -e "-a|--make-args   \t[${makeargs}]"
+  echo -e "--build-dir      \twhere make is executed [${BDIR}]"
+  echo -e "-c|--make-command\tmake targets [${makecommand}]"
+  echo -e "-a|--make-args   \tmake arguments [${makeargs}]"
   echo -e "-l|--show-log    \tshow make output [default]"
   echo -e "-L|--no-show-log \tredirect make output to ${LOGFILE}"
   echo -e ""
@@ -67,8 +67,10 @@ do
       echo "============================="
       echo "cd ${DEVEL_DIR}/src/$1/$BDIR"
       echo "make $makeargs $makecommand"
-      echo "============================="
       cd "${DEVEL_DIR}/src/$1/$BDIR" && make $makeargs $makecommand >&3
+      retcode=$?
+      if [ $retcode != 0 ]; then exit $retcode; fi
+      echo "============================="
       show_usage=false
       ;;
   esac
