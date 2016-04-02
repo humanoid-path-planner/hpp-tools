@@ -56,6 +56,12 @@ INSTALL (FILES
 INSTALL (FILES install/README
   DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/hpp-tools/hppcd)
 
+INSTALL (FILES
+  src/hpp/wholebody/__init__.py
+  src/hpp/wholebody/walkgen_plot.py
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/python2.7/site-packages/hpp/wholebody
+  )
+
 ADD_SUBDIRECTORY (gdb)
 
 # Add a target that creates some default links

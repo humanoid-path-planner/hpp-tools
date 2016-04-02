@@ -67,9 +67,9 @@ function gdbgvim () {
   file=$1
   export CLEWNDIR=$HOME
   if [ -z "$file" ]; then
-    gvim -R -c "let pyclewn_args=\"--gdb=async\"" -c "Pyclewn" -c Cmapkeys -c Cmymapkeys -c ClaunchxTerm
+    gvim -R -c "let pyclewn_args=\"--window=left --gdb=async --tty=`tty`\"" -c "Pyclewn" -c Cmapkeys -c Cmymapkeys
   else
-    gvim -R -c "let pyclewn_args=\"--gdb=async\"" -c "Pyclewn" -c "Cfile $file" -c Cmapkeys -c Cmymapkeys -c ClaunchxTerm
+    gvim -R -c "let pyclewn_args=\"--window=left --gdb=async --tty=`tty`\"" -c "Pyclewn" -c "Cfile $file" -c Cmapkeys -c Cmymapkeys
   fi
 }
 
