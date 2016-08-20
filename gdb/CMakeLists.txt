@@ -16,6 +16,8 @@
 # hpp-tools  If not, see
 # <http://www.gnu.org/licenses/>.
 
+OPTION(GDB_HAS_PYTHON_27 "Install module to send configuration to gepetto-viewer from gdb" OFF)
+
 CONFIGURE_FILE (gdbinit.in
   ${CMAKE_CURRENT_BINARY_DIR}/gdbinit
   @ONLY

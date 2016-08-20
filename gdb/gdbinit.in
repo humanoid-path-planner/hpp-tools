@@ -1,9 +1,13 @@
 # Load the hpp_gepetto_viewer library and the Eigen pretty printers
 python
 sys.path.insert(0,'@CMAKE_INSTALL_PREFIX@/etc/gdb/py')
-import hpp_gepetto_viewer
+
+if "ON" == "@GDB_HAS_PYTHON_27@":
+  import hpp_gepetto_viewer
+
 from eigen import register_eigen_printers
 register_eigen_printers (None)
+
 end
 
 # Register some stl containers pretty-printers
