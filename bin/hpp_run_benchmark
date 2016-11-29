@@ -33,4 +33,5 @@ while [ ! $output -eq 0 ]; do
   hpprestart
   sleep 1
   python $script
+  output=$?
 done
