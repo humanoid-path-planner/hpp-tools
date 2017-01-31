@@ -2,12 +2,25 @@
 #
 # vim: ft=sh
 
-makeargs="-s -j4"
-makecommand="install"
+install_dir="${DEVEL_DIR}/install"
+src_dir="${DEVEL_DIR}/src"
+
 BDIR=build
 LOGFILE="/tmp/hppmake.log"
+
+run_co=0
+git=`which git`
+co_command="$git clone --recursive"
+co_options="--recursive"
+co_url="git@github.com:humanoid-path-planner/"
+co_branch="master"
+
 run_cmake=0
 cmakeargs=""
+debug=1
+
+makeargs="-s -j4"
+makecommand="install"
 
 function usage() {
   echo -e "Usage: $0 <options> <packages> <options> <packages> ..."
@@ -17,9 +30,16 @@ function usage() {
   echo -e "-d|--debug       \tequivalent to --build-dir build"
   echo -e "-r|--release     \tequivalent to --build-dir build-rel"
   echo -e "--build-dir      \twhere make is executed [${BDIR}]"
+  echo -e "--src-dir        \tset the source directory [${src_dir}]"
+  echo -e "--install-dir    \tset the install directory [${install_dir}]"
+  echo -e ""
+  echo -e "--checkout       \tcheckout repository if it does not exists"
+  echo -e "--no-checkout    \tdo not checkout repository if it does not exists [default]"
+  echo -e "--checkout-url   \tbase url to checkout if repository does not exists [${co_url}]"
+  echo -e "--checkout-branch\tbranch to checkout if repository does not exists [${co_branch}]"
   echo -e ""
   echo -e "--cmake          \trun cmake for every following build"
-  echo -e "--no-cmake       \tdo not run cmake for every following build"
+  echo -e "--no-cmake       \tdo not run cmake for every following build [default]"
   echo -e "--cmake-args     \tcmake arguments [${cmakeargs}]"
   echo -e ""
   echo -e "-c|--make-command\tmake targets [${makecommand}]"
@@ -30,6 +50,47 @@ function usage() {
   echo -e ""
   echo -e "Examples:"
   echo -e "$0 -d hpp-core -r hpp-corbaserver -d hpp-manipulation -r hpp-manipulation-urdf hpp-manipulation-corba"
+}
+
+function check_retcode() {
+  if [ $1 != 0 ]; then exit $1; fi
+}
+
+function checkout()
+{
+  if [ ! -d "${src_dir}/$1" ]; then
+    echo "cd ${src_dir}"
+    echo "${co_command} ${co_options} --branch ${co_branch} "${co_url}/#1""
+    cd ${src_dir} && ${co_command} ${co_options} --branch ${co_branch} "${co_url}/#1"
+    check_retcode $?
+  fi
+}
+
+function configure()
+{
+  src=$1
+  build=$2
+  if [ $debug == 0 ]; then
+    build_type="Debug"
+  else
+    build_type="Release"
+  fi
+  if [ ! -d "${build}" ]; then
+    mkdir --parents ${build}
+  fi
+  echo "cd ${build}"
+  echo "cmake -DCMAKE_INSTALL_PREFIX=${install_dir} -DCMAKE_BUILD_TYPE=${build_type} ${cmakeargs} ${src}"
+  cd "${build}" && cmake -DCMAKE_INSTALL_PREFIX=${install_dir} -DCMAKE_BUILD_TYPE=${build_type} ${cmakeargs} "${src}" >&3
+  check_retcode $?
+}
+
+function compile ()
+{
+  build=$1
+  echo "cd ${build}"
+  echo "make $makeargs $makecommand"
+  cd "${build}" && make $makeargs $makecommand >&3
+  check_retcode $?
 }
 
 test -f ${LOGFILE} && rm ${LOGFILE}
@@ -47,24 +108,51 @@ do
       ;;
     -d|--debug)
       BDIR=build
+      debug=1
       ;;
     -r|--release)
       BDIR=build-rel
+      debug=0
       ;;
     --build-dir)
       BDIR="$2"
       shift # past argument
       ;;
-    --no-cmake)
-      run_cmake=0
+    --src-dir)
+      src_dir="$2"
+      shift # past argument
       ;;
+    --install-dir)
+      install_dir="$2"
+      shift # past argument
+      ;;
+
+    --checkout)
+      run_co=1
+      ;;
+    --no-checkout)
+      run_co=0
+      ;;
+    --checkout-url)
+      co_url="$2"
+      shift # past argument
+      ;;
+    --checkout-branch)
+      co_branch="$2"
+      shift # past argument
+      ;;
+
     --cmake)
       run_cmake=1
+      ;;
+    --no-cmake)
+      run_cmake=0
       ;;
     --cmake-args)
       cmakeargs=$2
       shift
       ;;
+
     -c|--make-command)
       makecommand=$2
       shift
@@ -73,6 +161,7 @@ do
       makeargs=$2
       shift
       ;;
+
     -l|--show-log)
       exec 3>&1
       ;;
@@ -83,18 +172,13 @@ do
       *)
       # Run make on current package
       echo "============================="
-      if [ ${run_cmake} != 0 ]; then
-        echo "cd ${DEVEL_DIR}/src/$1/$BDIR"
-        echo "cmake ${cmakeargs} ${DEVEL_DIR}/src/$1"
-        cd "${DEVEL_DIR}/src/$1/$BDIR" && cmake ${cmakeargs} "${DEVEL_DIR}/src/$1" >&3
-        retcode=$?
-        if [ $retcode != 0 ]; then exit $retcode; fi
+      if [ ${run_co} != 0 ]; then
+        checkout "${src_dir}/$1/$BDIR"
       fi
-      echo "cd ${DEVEL_DIR}/src/$1/$BDIR"
-      echo "make $makeargs $makecommand"
-      cd "${DEVEL_DIR}/src/$1/$BDIR" && make $makeargs $makecommand >&3
-      retcode=$?
-      if [ $retcode != 0 ]; then exit $retcode; fi
+      if [ ${run_cmake} != 0 ]; then
+        configure "${src_dir}/$1" "${src_dir}/$1/$BDIR"
+      fi
+      compile "${src_dir}/$1/$BDIR"
       echo "============================="
       show_usage=false
       ;;
