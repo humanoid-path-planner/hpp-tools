@@ -7,6 +7,7 @@ makecommand="install"
 BDIR=build
 LOGFILE="/tmp/hppmake.log"
 run_cmake=0
+cmakeargs=""
 
 function usage() {
   echo -e "Usage: $0 <options> <packages> <options> <packages> ..."
@@ -16,10 +17,14 @@ function usage() {
   echo -e "-d|--debug       \tequivalent to --build-dir build"
   echo -e "-r|--release     \tequivalent to --build-dir build-rel"
   echo -e "--build-dir      \twhere make is executed [${BDIR}]"
+  echo -e ""
   echo -e "--cmake          \trun cmake for every following build"
   echo -e "--no-cmake       \tdo not run cmake for every following build"
+  echo -e "--cmake-args     \tcmake arguments [${cmakeargs}]"
+  echo -e ""
   echo -e "-c|--make-command\tmake targets [${makecommand}]"
   echo -e "-a|--make-args   \tmake arguments [${makeargs}]"
+  echo -e ""
   echo -e "-l|--show-log    \tshow make output [default]"
   echo -e "-L|--no-show-log \tredirect make output to ${LOGFILE}"
   echo -e ""
@@ -50,18 +55,22 @@ do
       BDIR="$2"
       shift # past argument
       ;;
-    -a|--make-args)
-      makeargs=$2
-      shift
-      ;;
     --no-cmake)
       run_cmake=0
       ;;
     --cmake)
       run_cmake=1
       ;;
+    --cmake-args)
+      cmakeargs=$2
+      shift
+      ;;
     -c|--make-command)
       makecommand=$2
+      shift
+      ;;
+    -a|--make-args)
+      makeargs=$2
       shift
       ;;
     -l|--show-log)
@@ -76,8 +85,8 @@ do
       echo "============================="
       if [ ${run_cmake} != 0 ]; then
         echo "cd ${DEVEL_DIR}/src/$1/$BDIR"
-        echo "cmake ${DEVEL_DIR}/src/$1"
-        cd "${DEVEL_DIR}/src/$1/$BDIR" && cmake "${DEVEL_DIR}/src/$1" >&3
+        echo "cmake ${cmakeargs} ${DEVEL_DIR}/src/$1"
+        cd "${DEVEL_DIR}/src/$1/$BDIR" && cmake ${cmakeargs} "${DEVEL_DIR}/src/$1" >&3
         retcode=$?
         if [ $retcode != 0 ]; then exit $retcode; fi
       fi
