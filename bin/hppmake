@@ -10,10 +10,15 @@ LOGFILE="/tmp/hppmake.log"
 
 run_co=0
 git=`which git`
-co_command="$git clone --recursive"
+co_command="$git clone"
 co_options="--recursive"
-co_url="git@github.com:humanoid-path-planner/"
+co_url="git@github.com:humanoid-path-planner"
 co_branch="master"
+
+run_pull=0
+pull_command="$git pull"
+pull_options="--recurse-submodules"
+pull_remote_name="origin"
 
 run_cmake=0
 cmakeargs=""
@@ -33,10 +38,12 @@ function usage() {
   echo -e "--src-dir        \tset the source directory [${src_dir}]"
   echo -e "--install-dir    \tset the install directory [${install_dir}]"
   echo -e ""
-  echo -e "--checkout       \tcheckout repository if it does not exists"
-  echo -e "--no-checkout    \tdo not checkout repository if it does not exists [default]"
-  echo -e "--checkout-url   \tbase url to checkout if repository does not exists [${co_url}]"
-  echo -e "--checkout-branch\tbranch to checkout if repository does not exists [${co_branch}]"
+  echo -e "--checkout       \tcheckout repository if it does not exist"
+  echo -e "--no-checkout    \tdo not checkout repository if it does not exist [default]"
+  echo -e "--pull           \tpull from remote repository if it does exist"
+  echo -e "--no-pull        \tdo not pull [default]"
+  echo -e "--checkout-url   \tbase url [${co_url}]"
+  echo -e "--checkout-branch\tbranch [${co_branch}]"
   echo -e ""
   echo -e "--cmake          \trun cmake for every following build"
   echo -e "--no-cmake       \tdo not run cmake for every following build [default]"
@@ -60,8 +67,18 @@ function checkout()
 {
   if [ ! -d "${src_dir}/$1" ]; then
     echo "cd ${src_dir}"
-    echo "${co_command} ${co_options} --branch ${co_branch} "${co_url}/#1""
-    cd ${src_dir} && ${co_command} ${co_options} --branch ${co_branch} "${co_url}/#1"
+    echo "${co_command} ${co_options} --branch ${co_branch} "${co_url}/$1""
+    cd ${src_dir} && ${co_command} ${co_options} --branch ${co_branch} "${co_url}/$1"
+    check_retcode $?
+  fi
+}
+
+function pull()
+{
+  if [ -d "$1" ]; then
+    echo "cd $1"
+    echo "${pull_command} ${pull_options}"
+    cd $1 && ${pull_command} ${pull_options}
     check_retcode $?
   fi
 }
@@ -71,9 +88,9 @@ function configure()
   src=$1
   build=$2
   if [ $debug == 0 ]; then
-    build_type="Debug"
-  else
     build_type="Release"
+  else
+    build_type="Debug"
   fi
   if [ ! -d "${build}" ]; then
     mkdir --parents ${build}
@@ -133,6 +150,12 @@ do
     --no-checkout)
       run_co=0
       ;;
+    --pull)
+      run_pull=1
+      ;;
+    --no-pull)
+      run_pull=0
+      ;;
     --checkout-url)
       co_url="$2"
       shift # past argument
@@ -172,8 +195,11 @@ do
       *)
       # Run make on current package
       echo "============================="
+      if [ ${run_pull} != 0 ]; then
+        pull "${src_dir}/$1"
+      fi
       if [ ${run_co} != 0 ]; then
-        checkout "${src_dir}/$1/$BDIR"
+        checkout "$1"
       fi
       if [ ${run_cmake} != 0 ]; then
         configure "${src_dir}/$1" "${src_dir}/$1/$BDIR"
