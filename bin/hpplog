@@ -62,7 +62,9 @@ while [ 0 -eq 0 ]; do
         if [ -e $LOG_DIR/$type.$pid.log ]; then
           delay=$delay_long
           echo_ "======================= New $pgname session - $pid ======================="
-          tail --pid=$pid -f $LOG_DIR/$type.$pid.log &
+          tail --pid=$pid -f $LOG_DIR/$type.$pid.log | \
+            sed -E "s/([A-Z]+):(\/[^\/]+)+\/([kh]pp[-/][a-z-]+)\/[^:]+:([0-9]+:)?/\1:\3:/" \
+            | highlight --style=darkness --out-format=xterm256 --syntax=log &
           tail_pid=$!
         else
           delay=$delay_short

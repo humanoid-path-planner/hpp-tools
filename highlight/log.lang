@@ -1,0 +1,30 @@
+Description="HPP log file"
+
+Keywords = {
+ { Id   = 3,
+   List = {"INFO", "NOTICE", "BENCHMARK"}
+ },
+ { Id   = 2,
+   List = {"ERROR", "WARNING"}
+ },
+ { Id   = 1,
+   Regex = "(INFO|NOTICE|WARNING|ERROR|BENCHMARK):([^:]+(:[0-9]+)?:)",
+   Group = 2
+ },
+}
+
+Comments={
+  { Block = false,
+    Nested = false,
+    Delimiter = { "exiting" }
+  },
+  { Block = false,
+    Nested = false,
+    Delimiter = { "entering" }
+  }
+}
+
+Operators = [[:|=|\[|\]|/|\(|\)]]
+
+EnableIndentation=true
+IgnoreCase=false
