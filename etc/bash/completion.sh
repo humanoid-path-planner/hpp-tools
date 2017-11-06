@@ -53,3 +53,45 @@ _hppcd () {
 }
 
 complete -o nospace -S "/" -F _hppcd hppcd
+
+# gepetto-gui
+_gepetto-gui_options()
+{
+  COMPREPLY=( $(compgen -W "-c --config-file \
+    --predefined-robots --predefined-environments \
+    --no-viewer-server \
+    -P --no-plugin \
+    -q --load-pyplugin \
+    -p --load-plugin" -- $1 ))
+}
+
+_gepetto-gui ()
+{
+  local cur
+  local prev
+
+  COMPREPLY=()
+  cur=${COMP_WORDS[$COMP_CWORD]}
+  prev=${COMP_WORDS[$COMP_CWORD-1]}
+  case "${cur}" in
+    -*)
+      _gepetto-gui_options ${cur}
+      ;;
+    *)
+      case "${prev}" in
+        -c|--config-file|--predefined-robots|--predefined-environments)
+          install_path=$(dirname $(dirname $(which gepetto-gui)))
+          config_path=${install_path}/etc/gepetto-gui/
+          tmp=($(compgen -f -X "!*.conf" -- "${config_path}${cur}"))
+          tmp2=(${tmp[@]%.conf})
+          COMPREPLY=( ${tmp2[@]#${config_path}} )
+          ;;
+        *gepetto-gui)
+          _gepetto-gui_options ${cur}
+          ;;
+      esac
+      ;;
+  esac
+}
+
+complete -F _gepetto-gui gepetto-gui
