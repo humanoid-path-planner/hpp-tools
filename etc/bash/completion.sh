@@ -29,6 +29,7 @@ complete -c -f gdbgvim
 
 # hpplog
 complete -c hpplog
+complete -c hpplesslog
 
 # hppautorestart 
 complete -c hppautorestart

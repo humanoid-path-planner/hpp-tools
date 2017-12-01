@@ -1,5 +1,6 @@
+#!/bin/bash
 #
-# Copyright (c) 2010, 2011 CNRS
+# Copyright (c) 2017 CNRS
 # Authors: Joseph Mirabel
 #
 #
@@ -17,8 +18,25 @@
 # hpp-tools  If not, see
 # <http://www.gnu.org/licenses/>.
 
-alias wgit="watch --color git -c color.diff=always -c color.status=always --no-pager"
+if [ $# -gt 0 ]; then
+	pgname=$1
+else
+	pgname="hpp-manipulation-server"
+fi
 
-alias filterhppoutput="sed --unbuffered -E 's/([A-Z]+):(\/[^\/]+)+\/([kh]pp[-/][a-z-]+)\/[^:]+:([0-9]+:)?/\1:\3:/'"
+echo_() {
+	echo "$@" >&2
+}
 
-alias hpprestart="kill -USR1 \`ps h -C hppautorestart -o pid\`"
+LOG_DIR=$DEVEL_DIR/install/var/log/hpp
+
+test -z "$LOGTAIL_TYPE" && LOGTAIL_TYPE="journal"
+type=$LOGTAIL_TYPE
+pid=`pidof $pgname`
+if [ ! $(echo $pid | grep -o " " | wc -l ) -eq 0 ]; then
+  echo_ "Several session detected"
+else
+  cat $LOG_DIR/$type.$pid.log | \
+    sed --unbuffered -E "s/([A-Z]+):(\/[^\/]+)+\/([kh]pp[-/][a-z-]+)\/[^:]+:([0-9]+:)?/\1:\3:/" \
+    | highlight --style=darkness --out-format=xterm256 --syntax=log | less
+fi
