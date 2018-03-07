@@ -55,6 +55,19 @@ _hppcd () {
 
 complete -o nospace -S "/" -F _hppcd hppcd
 
+# hppmake
+_hppmake () {
+  local oldpwd curdir tmp paths
+  oldpwd=$OLDPWD
+  curdir=$(pwd)
+  cd $DEVEL_DIR/src
+  COMPREPLY=($(compgen -d -- "${COMP_WORDS[$COMP_CWORD]}"))
+  cd $curdir
+  export OLDPWD=${oldpwd}
+}
+
+complete -F _hppmake hppmake
+
 # gepetto-gui
 _gepetto-gui_options()
 {
