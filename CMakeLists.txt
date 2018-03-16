@@ -45,6 +45,7 @@ INSTALL (FILES
 INSTALL (FILES
   bin/hpplog
   bin/hpplesslog
+  bin/hppcolorlog
   ${CMAKE_BINARY_DIR}/bin/recursivegit
   bin/change_develconfig
   bin/hppautorestart
