@@ -60,7 +60,7 @@ _hppmake () {
   local oldpwd curdir tmp paths
   oldpwd=$OLDPWD
   curdir=$(pwd)
-  cd $DEVEL_DIR/src
+  cd $DEVEL_HPP_DIR/src
   COMPREPLY=($(compgen -d -- "${COMP_WORDS[$COMP_CWORD]}"))
   cd $curdir
   export OLDPWD=${oldpwd}

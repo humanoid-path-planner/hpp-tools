@@ -28,7 +28,8 @@ echo_() {
 	echo "$@" >&2
 }
 
-LOG_DIR=$DEVEL_DIR/install/var/log/hpp
+install_dir="${INSTALL_HPP_DIR-"${DEVEL_HPP_DIR}/install"}"
+LOG_DIR=$install_dir/var/log/hpp
 
 test -z "$LOGTAIL_TYPE" && LOGTAIL_TYPE="journal"
 type=$LOGTAIL_TYPE

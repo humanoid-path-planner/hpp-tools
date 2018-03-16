@@ -2,8 +2,8 @@
 #
 # vim: ft=sh
 
-install_dir="${DEVEL_DIR}/install"
-src_dir="${DEVEL_DIR}/src"
+install_dir="${INSTALL_HPP_DIR-"${DEVEL_HPP_DIR}/install"}"
+src_dir="${DEVEL_HPP_DIR}/src"
 
 BDIR=build
 LOGFILE="/tmp/hppmake.log"

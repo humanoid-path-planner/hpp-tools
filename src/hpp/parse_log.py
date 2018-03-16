@@ -2,7 +2,7 @@
 import os
 import numpy as np
 
-devel_dir = os.getenv ('DEVEL_DIR')
+devel_dir = os.getenv ('DEVEL_HPP_DIR')
 
 def parseStringInLog (pid, prefix):
     filename = devel_dir + '/install/var/log/hpp/journal.' + pid + '.log'

@@ -26,13 +26,13 @@ fi
 addlink @CMAKE_INSTALL_PREFIX@ install
 
 ## Everything depends on HPP from there.
-# Environment variable DEVEL_DIR should be set as described in hpp-doc install procedure.
-[ -z "${DEVEL_DIR}" ] && exit 0
-[ -d "${DEVEL_DIR}/src" ] && addlink ${DEVEL_DIR}/src src
-[ -d "${DEVEL_DIR}/src/hpp-core" ] && addlink ${DEVEL_DIR}/src/hpp-core core
-[ -d "${DEVEL_DIR}/src/hpp-model" ] && addlink ${DEVEL_DIR}/src/hpp-model model
-[ -d "${DEVEL_DIR}/src/hpp_tutorial" ] && addlink ${DEVEL_DIR}/src/hpp_tutorial tutorial
-[ -d "${DEVEL_DIR}/src/hpp-constraints" ] && addlink ${DEVEL_DIR}/src/hpp-constraints constraints
-[ -d "${DEVEL_DIR}/src/hpp-corbaserver" ] && addlink ${DEVEL_DIR}/src/hpp-corbaserver corbaserver
-[ -d "${DEVEL_DIR}/src/hpp-manipulation" ] && addlink ${DEVEL_DIR}/src/hpp-manipulation manipulation
-[ -d "${DEVEL_DIR}/src/hpp-manipulation-corba" ] && addlink ${DEVEL_DIR}/src/hpp-manipulation-corba corba-manipulation
+# Environment variable DEVEL_HPP_DIR should be set as described in hpp-doc install procedure.
+[ -z "${DEVEL_HPP_DIR}" ] && exit 0
+[ -d "${DEVEL_HPP_DIR}/src" ] && addlink ${DEVEL_HPP_DIR}/src src
+[ -d "${DEVEL_HPP_DIR}/src/hpp-core" ] && addlink ${DEVEL_HPP_DIR}/src/hpp-core core
+[ -d "${DEVEL_HPP_DIR}/src/hpp-model" ] && addlink ${DEVEL_HPP_DIR}/src/hpp-model model
+[ -d "${DEVEL_HPP_DIR}/src/hpp_tutorial" ] && addlink ${DEVEL_HPP_DIR}/src/hpp_tutorial tutorial
+[ -d "${DEVEL_HPP_DIR}/src/hpp-constraints" ] && addlink ${DEVEL_HPP_DIR}/src/hpp-constraints constraints
+[ -d "${DEVEL_HPP_DIR}/src/hpp-corbaserver" ] && addlink ${DEVEL_HPP_DIR}/src/hpp-corbaserver corbaserver
+[ -d "${DEVEL_HPP_DIR}/src/hpp-manipulation" ] && addlink ${DEVEL_HPP_DIR}/src/hpp-manipulation manipulation
+[ -d "${DEVEL_HPP_DIR}/src/hpp-manipulation-corba" ] && addlink ${DEVEL_HPP_DIR}/src/hpp-manipulation-corba corba-manipulation

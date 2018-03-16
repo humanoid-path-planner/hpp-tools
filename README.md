@@ -24,9 +24,9 @@ $ cmake ..
 $ make install
 ```
 
-You need to source the file `${CMAKE_INSTALL_PREFIX}/etc/hpp-tools/bashrc`. If you use the installation procedure described in [HPP], you can simply add this line to `${DEVEL_DIR}/.config`:
+You need to source the file `${CMAKE_INSTALL_PREFIX}/etc/hpp-tools/bashrc`. If you use the installation procedure described in [HPP], you can simply add this line to `${DEVEL_HPP_DIR}/config.sh`:
 ```sh
-[ -f "${DEVEL_DIR}/install/etc/hpp-tools/bashrc" ] && source "${DEVEL_DIR}/install/etc/hpp-tools/bashrc"
+[ -f "${INSTALL_HPP_DIR}/etc/hpp-tools/bashrc" ] && source "${INSTALL_HPP_DIR}/etc/hpp-tools/bashrc"
 ```
 
 Optionally, you can use make target `hppcd-defaults` to install some link for HPP software:
@@ -68,11 +68,11 @@ The command `forward-geometry` enables you to display configuration directly in 
 ```
 python
 import os
-gdb.execute ("directory " + os.environ["DEVEL_DIR"] + "/install/etc/gdb/")
+gdb.execute ("directory " + os.environ["DEVEL_HPP_DIR"] + "/install/etc/gdb/")
 end
 source gdbinit
 
-# If you do not use the DEVEL_DIR environment variable, then use this instead.
+# If you do not use the DEVEL_HPP_DIR environment variable, then use this instead.
 # source ${CMAKE_INSTALL_PREFIX}/install/etc/gdb/gdbinit
 ```
 * run `help forward-geometry` in the gdb cli.
