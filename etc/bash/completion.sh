@@ -92,13 +92,19 @@ _gepetto-gui ()
       _gepetto-gui_options ${cur}
       ;;
     *)
+      install_path=$(dirname $(dirname $(which gepetto-gui)))
       case "${prev}" in
         -c|--config-file|--predefined-robots|--predefined-environments)
-          install_path=$(dirname $(dirname $(which gepetto-gui)))
           config_path=${install_path}/etc/gepetto-gui/
           tmp=($(compgen -f -X "!*.conf" -- "${config_path}${cur}"))
           tmp2=(${tmp[@]%.conf})
           COMPREPLY=( ${tmp2[@]#${config_path}} )
+          ;;
+        -p|--load-plugin)
+          lib_path=${install_path}/lib/gepetto-gui-plugins/
+          tmp=($(compgen -f -X "!*.so" -- "${lib_path}${cur}"))
+          tmp2=(${tmp[@]%.conf})
+          COMPREPLY=( ${tmp2[@]#${lib_path}} )
           ;;
         *gepetto-gui)
           _gepetto-gui_options ${cur}
