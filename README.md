@@ -77,5 +77,9 @@ source gdbinit
 ```
 * run `help forward-geometry` in the gdb cli.
 
+### Log highlighter
+
+Copy `highlight/log.lang` to `~/.highlight/langDefs/log.lang`
+
 [hpp]:https://github.com/humanoid-path-planner/hpp-doc "HPP"
 [pyclewn]:http://pyclewn.sourceforge.net/ "Pyclewn"
