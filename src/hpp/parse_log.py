@@ -14,18 +14,10 @@ def parseStringInLog (pid, prefix):
                 res.append (line [l:])
     return res
 
-def parseVectorInLog (pid, prefix) :
-    lines = parseStringInLog (pid, prefix)
-    res = []
-    for l in lines:
-        v = map (float, filter (lambda x:x != '', l.strip ("\n").split (' ')))
-        res.append (np.array (v))
-    return res
-
 def parseConfigInLog (pid, prefix):
     lines = parseStringInLog (pid, prefix)
     res = []
     for l in lines:
-        q = map (float, filter (lambda x:x!='', l.strip ("\n").split(' ')))
+        q = map (float, filter (lambda x:x!='', l.strip ('()\n').split (',')))
         res.append (q)
     return res
