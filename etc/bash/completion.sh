@@ -76,7 +76,8 @@ _gepetto-gui_options()
     --no-viewer-server \
     -P --no-plugin \
     -q --load-pyplugin \
-    -p --load-plugin" -- $1 ))
+    -p --load-plugin \
+    -x --run-pyscript" -- $1 ))
 }
 
 _gepetto-gui ()
@@ -105,6 +106,9 @@ _gepetto-gui ()
           tmp=($(compgen -f -X "!*.so" -- "${lib_path}${cur}"))
           tmp2=(${tmp[@]%.conf})
           COMPREPLY=( ${tmp2[@]#${lib_path}} )
+          ;;
+        -x|--run-pyscript)
+          COMPREPLY=($(compgen -o dirnames -f -X "!*.py" -- "${cur}"))
           ;;
         *gepetto-gui)
           _gepetto-gui_options ${cur}
