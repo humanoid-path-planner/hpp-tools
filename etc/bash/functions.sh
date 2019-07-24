@@ -82,3 +82,15 @@ function gdbvim () {
     vim -R -c "let pyclewn_args=\"--gdb=async\"" -c "Pyclewn" -c "Cfile $file" -c Cmapkeys -c Cmymapkeys -c ClaunchxTerm
   fi
 }
+
+function use_python_27 ()
+{
+  path=$(echo ${PYTHONPATH} | sed 's/3\.5/2\.7/g')
+  export PYTHONPATH=${path}
+}
+
+function use_python_35 ()
+{
+  path=$(echo ${PYTHONPATH} | sed 's/2\.7/3\.5/g')
+  export PYTHONPATH=${path}
+}
