@@ -83,14 +83,12 @@ function gdbvim () {
   fi
 }
 
-function use_python_27 ()
+function set_python_path_to_version ()
 {
-  path=$(echo ${PYTHONPATH} | sed 's/3\.5/2\.7/g')
+  path=$(echo ${PYTHONPATH} | sed "s/python[0-9.]\+/python${1}/g")
   export PYTHONPATH=${path}
 }
 
-function use_python_35 ()
-{
-  path=$(echo ${PYTHONPATH} | sed 's/2\.7/3\.5/g')
-  export PYTHONPATH=${path}
-}
+function switch_to_python_27 () { set_python_path_to_version 2.7; }
+function switch_to_python_35 () { set_python_path_to_version 3.5; }
+function switch_to_python_3  () { set_python_path_to_version 3  ; }
