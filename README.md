@@ -27,6 +27,9 @@ $ make install
 You need to source the file `${CMAKE_INSTALL_PREFIX}/etc/hpp-tools/bashrc`. If you use the installation procedure described in [HPP], you can simply add this line to `${DEVEL_HPP_DIR}/config.sh`:
 ```sh
 [ -f "${INSTALL_HPP_DIR}/etc/hpp-tools/bashrc" ] && source "${INSTALL_HPP_DIR}/etc/hpp-tools/bashrc"
+
+# If you use ROS, you may want to add so that catkin works fine with hppcd
+export ROS_LANG_DISABLE=genlisp:geneus:gennodejs
 ```
 
 Optionally, you can use make target `hppcd-defaults` to install some link for HPP software:
