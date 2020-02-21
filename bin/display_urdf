@@ -5,7 +5,7 @@ import eigenpy
 eigenpy.switchToNumpyArray()
 
 parser = argparse.ArgumentParser(description="Visualize a robot in Gepetto-viewer, loaded with pinocchio")
-parser.add_argument("--package-dirs", type=str,
+parser.add_argument("--package-dirs", type=str, default="",
         help="sequence of paths separated by : (so that $ROS_PACKAGE_PATH works)")
 parser.add_argument("urdf_file", type=str,
         help="the urdf file")
@@ -17,4 +17,6 @@ args = parser.parse_args()
 robot = pinocchio.RobotWrapper.BuildFromURDF(args.urdf_file, package_dirs=args.package_dirs.split(':'))
 robot.initViewer()
 robot.loadViewerModel()
+if args.collision:
+    robot.displayCollisions(True)
 robot.display(pinocchio.neutral(robot.model))
