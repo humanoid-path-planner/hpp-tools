@@ -24,6 +24,9 @@ SET(PROJECT_DESCRIPTION "Tools for HPP.")
 SET(PROJECT_URL "https://github.com/jmirabel/hpp-tools")
 SET(PROJECT_VERSION 1.0.0)
 
+INCLUDE(cmake/python.cmake)
+FINDPYTHON()
+
 CONFIGURE_FILE (
   bin/recursivegit
   ${CMAKE_BINARY_DIR}/bin/recursivegit
@@ -61,11 +64,10 @@ INSTALL (FILES
 INSTALL (FILES install/README
   DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/hpp-tools/hppcd)
 
-INSTALL (FILES
-  src/hpp/wholebody/__init__.py
-  src/hpp/wholebody/walkgen_plot.py
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/python2.7/site-packages/hpp/wholebody
-  )
+FOREACH(FILE __init__.py walkgen_plot.py)
+  PYTHON_INSTALL_ON_SITE(hpp/wholebody ${FILE}
+    )
+ENDFOREACH()
 
 ADD_SUBDIRECTORY (gdb)
 
