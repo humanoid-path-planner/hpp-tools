@@ -32,6 +32,16 @@ CONFIGURE_FILE (
   ${CMAKE_BINARY_DIR}/bin/recursivegit
   @ONLY
   )
+CONFIGURE_FILE (
+  bin/hpplog.in
+  ${CMAKE_BINARY_DIR}/bin/hpplog
+  @ONLY
+  )
+CONFIGURE_FILE (
+  bin/hpplesslog.in
+  ${CMAKE_BINARY_DIR}/bin/hpplesslog
+  @ONLY
+  )
 
 INSTALL (FILES
   etc/bashrc
@@ -46,8 +56,13 @@ INSTALL (FILES
   )
 
 INSTALL (FILES
-  bin/hpplog
-  bin/hpplesslog
+  etc/highlight/log.lang
+  DESTINATION etc/hpp-tools/highlight
+  )
+
+INSTALL (FILES
+  ${CMAKE_BINARY_DIR}/bin/hpplog
+  ${CMAKE_BINARY_DIR}/bin/hpplesslog
   bin/hppcolorlog
   ${CMAKE_BINARY_DIR}/bin/recursivegit
   bin/change_develconfig

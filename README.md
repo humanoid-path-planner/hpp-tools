@@ -41,7 +41,7 @@ $ make hppcd-defaults
 
 * `addhppcd [<dir> [<alias>]]` adds a folder to `hppcd`
 * `hppcd <alias>` goes the folder linked to 'alias'. It is compliant with `cd -`.
-* `hpplog [binary-name]` automatically tails the logs of the running hpp server. If no hpp server is running, it waits. The argument is the name of the binary file writting the logs. It defaults to hpp-manipulation-server.
+* `hpplog [binary-name]` automatically tails the logs of the running hpp server. If no hpp server is running, it waits. The argument is the name of the binary file writting the logs. It defaults to hppcorbaserver.
 * `hppmake --make-args "-s -j4" --debug hpp-core --release hpp-corbaserver` will build, in order, hpp-core (resp. hpp-corbaserver) in debug mode (resp. in release mode).
 * `filterhppoutput` compresses hpp-util output. Use it like this: `hpplog | filterhppoutput`.
 * `gdbvim [file-or-command]`
