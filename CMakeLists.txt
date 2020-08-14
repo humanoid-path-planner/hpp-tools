@@ -42,6 +42,11 @@ CONFIGURE_FILE (
   ${CMAKE_BINARY_DIR}/bin/hpplesslog
   @ONLY
   )
+CONFIGURE_FILE (
+  bin/hppcolorlog.in
+  ${CMAKE_BINARY_DIR}/bin/hppcolorlog
+  @ONLY
+  )
 
 INSTALL (FILES
   etc/bashrc
@@ -63,7 +68,7 @@ INSTALL (FILES
 INSTALL (FILES
   ${CMAKE_BINARY_DIR}/bin/hpplog
   ${CMAKE_BINARY_DIR}/bin/hpplesslog
-  bin/hppcolorlog
+  ${CMAKE_BINARY_DIR}/bin/hppcolorlog
   ${CMAKE_BINARY_DIR}/bin/recursivegit
   bin/change_develconfig
   bin/hppautorestart

@@ -27,4 +27,4 @@ fi
 
 cat $name | \
   sed --unbuffered -E "s/([A-Z]+):(\/[^\/]+)+\/([kh]pp[-/][a-z-]+)\/[^:]+:([0-9]+:)?/\1:\3:/" \
-  | highlight --style=darkness --out-format=xterm256 --syntax=log
+  | highlight --config-file="@CMAKE_INSTALL_PREFIX@/etc/hpp-tools/highlight/log.lang" --style=darkness --out-format=xterm256 --syntax=log
