@@ -74,6 +74,7 @@ _gepetto-gui_options()
   COMPREPLY=( $(compgen -W "-c --config-file \
     --predefined-robots --predefined-environments \
     --no-viewer-server \
+    --log \
     -P --no-plugin \
     -q --load-pyplugin \
     -p --load-plugin \
