@@ -1,8 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
+from gepetto.corbaserver import start_server
 import pinocchio, argparse
-import eigenpy
-eigenpy.switchToNumpyArray()
+
+pinocchio.switchToNumpyArray()
 
 parser = argparse.ArgumentParser(description="Visualize a robot in Gepetto-viewer, loaded with pinocchio")
 parser.add_argument("--package-dirs", type=str, default="",
@@ -13,6 +14,8 @@ parser.add_argument("--collision", action="store_true",
         help="load the collision model instead of the visual")
 
 args = parser.parse_args()
+
+start_server()
 
 robot = pinocchio.RobotWrapper.BuildFromURDF(args.urdf_file, package_dirs=args.package_dirs.split(':'))
 robot.initViewer()
