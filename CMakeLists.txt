@@ -1,100 +1,97 @@
 #
-# Copyright (c) 2010, 2011 CNRS
-# Authors: Joseph Mirabel
+# Copyright (c) 2010, 2011 CNRS Authors: Joseph Mirabel
 #
+# This file is part of hpp-tools hpp-tools is free software: you can
+# redistribute it and/or modify it under the terms of the GNU Lesser General
+# Public License as published by the Free Software Foundation, either version 3
+# of the License, or (at your option) any later version.
 #
-# This file is part of hpp-tools
-# hpp-tools is free software: you can redistribute it
-# and/or modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation, either version
-# 3 of the License, or (at your option) any later version.
-#
-# hpp-tools is distributed in the hope that it will be
-# useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-# of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# General Lesser Public License for more details.  You should have
-# received a copy of the GNU Lesser General Public License along with
-# hpp-tools  If not, see
-# <http://www.gnu.org/licenses/>.
+# hpp-tools is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+# A PARTICULAR PURPOSE.  See the GNU General Lesser Public License for more
+# details.  You should have received a copy of the GNU Lesser General Public
+# License along with hpp-tools  If not, see <http://www.gnu.org/licenses/>.
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+cmake_minimum_required(VERSION 3.22)
 
-SET(PROJECT_NAME hpp-tools)
-SET(PROJECT_DESCRIPTION "Tools for HPP.")
-SET(PROJECT_URL "https://github.com/jmirabel/hpp-tools")
-SET(PROJECT_VERSION 1.0.0)
+set(PROJECT_NAME hpp-tools)
+set(PROJECT_DESCRIPTION "Tools for HPP.")
+set(PROJECT_URL "https://github.com/humanoid-path-planner/hpp-tools")
 
-INCLUDE(cmake/python.cmake)
-FINDPYTHON()
+# Check if the submodule cmake have been initialized
+set(JRL_CMAKE_MODULES "${CMAKE_CURRENT_LIST_DIR}/cmake")
+if(EXISTS "${JRL_CMAKE_MODULES}/base.cmake")
+  message(STATUS "JRL cmakemodules found in 'cmake/' git submodule")
+else()
+  find_package(jrl-cmakemodules QUIET CONFIG)
+  if(jrl-cmakemodules_FOUND)
+    get_property(
+      JRL_CMAKE_MODULES
+      TARGET jrl-cmakemodules::jrl-cmakemodules
+      PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
+    message(STATUS "JRL cmakemodules found on system at ${JRL_CMAKE_MODULES}")
+  else()
+    message(STATUS "JRL cmakemodules not found. Let's fetch it.")
+    include(FetchContent)
+    FetchContent_Declare(
+      "jrl-cmakemodules"
+      GIT_REPOSITORY "https://github.com/jrl-umi3218/jrl-cmakemodules.git")
+    FetchContent_MakeAvailable("jrl-cmakemodules")
+    FetchContent_GetProperties("jrl-cmakemodules" SOURCE_DIR JRL_CMAKE_MODULES)
+  endif()
+endif()
 
-CONFIGURE_FILE (
-  bin/recursivegit
-  ${CMAKE_BINARY_DIR}/bin/recursivegit
-  @ONLY
-  )
-CONFIGURE_FILE (
-  bin/hpplog.in
-  ${CMAKE_BINARY_DIR}/bin/hpplog
-  @ONLY
-  )
-CONFIGURE_FILE (
-  bin/hpplesslog.in
-  ${CMAKE_BINARY_DIR}/bin/hpplesslog
-  @ONLY
-  )
-CONFIGURE_FILE (
-  bin/hppcolorlog.in
-  ${CMAKE_BINARY_DIR}/bin/hppcolorlog
-  @ONLY
-  )
+include("${JRL_CMAKE_MODULES}/base.cmake")
+include("${JRL_CMAKE_MODULES}/python.cmake")
 
-INSTALL (FILES
-  etc/bashrc
-  DESTINATION etc/hpp-tools
-  )
+set(PYTHON_COMPONENTS Interpreter Development.Module NumPy)
+findpython()
 
-INSTALL (FILES
-  etc/bash/aliases.sh
-  etc/bash/functions.sh
-  etc/bash/completion.sh
-  DESTINATION etc/hpp-tools/bash
-  )
+configure_file(bin/recursivegit ${CMAKE_BINARY_DIR}/bin/recursivegit @ONLY)
+configure_file(bin/hpplog.in ${CMAKE_BINARY_DIR}/bin/hpplog @ONLY)
+configure_file(bin/hpplesslog.in ${CMAKE_BINARY_DIR}/bin/hpplesslog @ONLY)
+configure_file(bin/hppcolorlog.in ${CMAKE_BINARY_DIR}/bin/hppcolorlog @ONLY)
 
-INSTALL (FILES
-  etc/highlight/log.lang
-  DESTINATION etc/hpp-tools/highlight
-  )
+install(FILES etc/bashrc DESTINATION etc/hpp-tools)
 
-INSTALL (FILES
-  ${CMAKE_BINARY_DIR}/bin/hpplog
-  ${CMAKE_BINARY_DIR}/bin/hpplesslog
-  ${CMAKE_BINARY_DIR}/bin/hppcolorlog
-  ${CMAKE_BINARY_DIR}/bin/recursivegit
-  bin/change_develconfig
-  bin/hppautorestart
-  bin/hpp_run_benchmark
-  bin/interrupt-planning
-  bin/shutdown-hpp
-  bin/hppmake
-  bin/display_urdf
-  PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-  DESTINATION bin
-  )
+install(FILES etc/bash/aliases.sh etc/bash/functions.sh etc/bash/completion.sh
+        DESTINATION etc/hpp-tools/bash)
 
-INSTALL (FILES install/README
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/hpp-tools/hppcd)
+install(FILES etc/highlight/log.lang DESTINATION etc/hpp-tools/highlight)
 
-FOREACH(FILE __init__.py walkgen_plot.py)
-  PYTHON_INSTALL_ON_SITE(hpp/wholebody ${FILE}
-    )
-ENDFOREACH()
+install(
+  FILES ${CMAKE_BINARY_DIR}/bin/hpplog
+        ${CMAKE_BINARY_DIR}/bin/hpplesslog
+        ${CMAKE_BINARY_DIR}/bin/hppcolorlog
+        ${CMAKE_BINARY_DIR}/bin/recursivegit
+        bin/change_develconfig
+        bin/hppautorestart
+        bin/hpp_run_benchmark
+        bin/interrupt-planning
+        bin/shutdown-hpp
+        bin/hppmake
+        bin/display_urdf
+  PERMISSIONS
+    OWNER_READ
+    OWNER_WRITE
+    OWNER_EXECUTE
+    GROUP_READ
+    GROUP_EXECUTE
+    WORLD_READ
+    WORLD_EXECUTE
+  DESTINATION bin)
 
-ADD_SUBDIRECTORY (gdb)
+install(FILES install/README
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/hpp-tools/hppcd)
+
+foreach(FILE __init__.py walkgen_plot.py)
+  python_install_on_site(hpp/wholebody ${FILE})
+endforeach()
+
+add_subdirectory(gdb)
 
 # Add a target that creates some default links
-CONFIGURE_FILE (${CMAKE_SOURCE_DIR}/install/hppcd-defaults
-  ${CMAKE_BINARY_DIR}/install/hppcd-defaults
-  @ONLY)
-ADD_CUSTOM_TARGET (hppcd-defaults
-  COMMAND ${CMAKE_BINARY_DIR}/install/hppcd-defaults
-  )
+configure_file(${CMAKE_SOURCE_DIR}/install/hppcd-defaults
+               ${CMAKE_BINARY_DIR}/install/hppcd-defaults @ONLY)
+add_custom_target(hppcd-defaults
+                  COMMAND ${CMAKE_BINARY_DIR}/install/hppcd-defaults)
