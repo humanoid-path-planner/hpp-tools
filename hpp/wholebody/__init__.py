@@ -1,1 +1,1 @@
-import walkgen_plot
+import walkgen_plot  # noqa: F401

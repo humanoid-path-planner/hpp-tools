@@ -27,7 +27,7 @@ class ForwardGeometry(gdb.Command):
 
         start = val["_M_impl"]["_M_start"]
         finish = val["_M_impl"]["_M_finish"]
-        end = val["_M_impl"]["_M_end_of_storage"]
+        _end = val["_M_impl"]["_M_end_of_storage"]
         length = int(finish - start)
 
         print("%s links" % length)

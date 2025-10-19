@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 CONFIG=$@
 
 for line in $CONFIG; do

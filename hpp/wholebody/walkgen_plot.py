@@ -48,14 +48,14 @@ animation.Animation._blit_draw = _blit_draw
 
 
 def plotTimeParam(fig, axes, timeParam):
-    for i in xrange(len(timeParam)):
+    for i in range(len(timeParam)):
         tmp = np.array(timeParam[i])
         axes.plot(tmp[:, 0], tmp[:, 1])
 
 
 def plotFootStep(fig, axes, footPrint):
     handles = []
-    for i in xrange(len(footPrint)):
+    for i in range(len(footPrint)):
         tmp = np.array(footPrint[i])
         handles.append(
             axes.plot(tmp[0::2, 0], tmp[0::2, 1], "o ", label="Foot 0 - step " + str(i))
@@ -68,7 +68,7 @@ def plotFootStep(fig, axes, footPrint):
 
 def subplotFootStep(footPrint):
     f, axarr = plt.subplots(len(footPrint), sharex=True, sharey=True)
-    for i in xrange(len(footPrint)):
+    for i in range(len(footPrint)):
         tmp = np.array(footPrint[i])
         axarr[i].plot(tmp[0::2, 0], tmp[0::2, 1], "+ ", label="Foot 0")
         axarr[i].plot(tmp[1::2, 0], tmp[1::2, 1], "x ", label="Foot 1")
@@ -77,14 +77,14 @@ def subplotFootStep(footPrint):
 
 
 def plotCom(fig, axes, com):
-    for i in xrange(len(com)):
+    for i in range(len(com)):
         tmp = np.array(com[i])
         axes.plot(tmp[:, 1], tmp[:, 2])
     # axes.legend(handles=handles)
 
 
 def plotComVersusTime(fig, axes, com):
-    for i in xrange(len(com)):
+    for i in range(len(com)):
         tmp = np.array(com[i])
         axes.plot(tmp[:, 0], tmp[:, 1], label="X COM - step " + str(i))
         axes.plot(tmp[:, 0], tmp[:, 2], label="Y COM - step " + str(i))
@@ -92,7 +92,7 @@ def plotComVersusTime(fig, axes, com):
 
 
 def subplotComVersusTime(Xaxes, Yaxes, com):
-    for i in xrange(len(com)):
+    for i in range(len(com)):
         tmp = np.array(com[i])
         Xaxes.plot(tmp[:, 0], tmp[:, 1], label="X COM - step " + str(i))
         Yaxes.plot(tmp[:, 0], tmp[:, 2], label="Y COM - step " + str(i))
@@ -152,7 +152,7 @@ def plotComAnimation(com, Xval=True, Yval=True):
     tmp = np.array(com[0])
     t = range(tmp.shape[0])
     (line,) = plt.plot(tmp[t, Xcol], tmp[t, Ycol], label="COM")
-    line_ani = animation.FuncAnimation(
+    _line_ani = animation.FuncAnimation(
         fig,
         _updateAnimationData,
         len(com),
@@ -173,7 +173,7 @@ def plotFootPrintAnimation(footPrint):
     tmp = np.array(footPrint[0])
     t = None
     (line,) = plt.plot(tmp[:, Xcol], tmp[:, Ycol], label="COM")
-    line_ani = animation.FuncAnimation(
+    _line_ani = animation.FuncAnimation(
         fig,
         _updateAnimationData,
         len(footPrint),

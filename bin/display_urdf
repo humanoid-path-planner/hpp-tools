@@ -1,7 +1,8 @@
 #!/usr/bin/python3
+import argparse
 
 from gepetto.corbaserver import start_server
-import pinocchio, argparse
+import pinocchio
 
 pinocchio.switchToNumpyArray()
 

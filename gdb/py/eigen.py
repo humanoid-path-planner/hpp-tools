@@ -354,7 +354,7 @@ def build_eigen_dictionary():
 def register_eigen_printers(obj):
     "Register eigen pretty-printers with objfile Obj"
 
-    if obj == None:
+    if obj is None:
         obj = gdb
     obj.pretty_printers.append(lookup_function)
 
@@ -370,7 +370,7 @@ def lookup_function(val):
     type = type.unqualified().strip_typedefs()
 
     typename = type.tag
-    if typename == None:
+    if typename is None:
         return None
 
     for function in pretty_printers_dict:
