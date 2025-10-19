@@ -1,27 +1,22 @@
 #
-# Copyright (c) 2010, 2011 CNRS
-# Authors: Joseph Mirabel
+# Copyright (c) 2010, 2011 CNRS Authors: Joseph Mirabel
 #
+# This file is part of hpp-tools hpp-tools is free software: you can
+# redistribute it and/or modify it under the terms of the GNU Lesser General
+# Public License as published by the Free Software Foundation, either version 3
+# of the License, or (at your option) any later version.
 #
-# This file is part of hpp-tools
-# hpp-tools is free software: you can redistribute it
-# and/or modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation, either version
-# 3 of the License, or (at your option) any later version.
-#
-# hpp-tools is distributed in the hope that it will be
-# useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-# of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# General Lesser Public License for more details.  You should have
-# received a copy of the GNU Lesser General Public License along with
-# hpp-tools  If not, see
-# <http://www.gnu.org/licenses/>.
+# hpp-tools is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+# A PARTICULAR PURPOSE.  See the GNU General Lesser Public License for more
+# details.  You should have received a copy of the GNU Lesser General Public
+# License along with hpp-tools  If not, see <http://www.gnu.org/licenses/>.
 
 cmake_minimum_required(VERSION 3.22)
 
-SET(PROJECT_NAME hpp-tools)
-SET(PROJECT_DESCRIPTION "Tools for HPP.")
-SET(PROJECT_URL "https://github.com/humanoid-path-planner/hpp-tools")
+set(PROJECT_NAME hpp-tools)
+set(PROJECT_DESCRIPTION "Tools for HPP.")
+set(PROJECT_URL "https://github.com/humanoid-path-planner/hpp-tools")
 
 # Check if the submodule cmake have been initialized
 set(JRL_CMAKE_MODULES "${CMAKE_CURRENT_LIST_DIR}/cmake")
@@ -50,76 +45,53 @@ include("${JRL_CMAKE_MODULES}/base.cmake")
 include("${JRL_CMAKE_MODULES}/python.cmake")
 
 set(PYTHON_COMPONENTS Interpreter Development.Module NumPy)
-FINDPYTHON()
+findpython()
 
-CONFIGURE_FILE (
-  bin/recursivegit
-  ${CMAKE_BINARY_DIR}/bin/recursivegit
-  @ONLY
-  )
-CONFIGURE_FILE (
-  bin/hpplog.in
-  ${CMAKE_BINARY_DIR}/bin/hpplog
-  @ONLY
-  )
-CONFIGURE_FILE (
-  bin/hpplesslog.in
-  ${CMAKE_BINARY_DIR}/bin/hpplesslog
-  @ONLY
-  )
-CONFIGURE_FILE (
-  bin/hppcolorlog.in
-  ${CMAKE_BINARY_DIR}/bin/hppcolorlog
-  @ONLY
-  )
+configure_file(bin/recursivegit ${CMAKE_BINARY_DIR}/bin/recursivegit @ONLY)
+configure_file(bin/hpplog.in ${CMAKE_BINARY_DIR}/bin/hpplog @ONLY)
+configure_file(bin/hpplesslog.in ${CMAKE_BINARY_DIR}/bin/hpplesslog @ONLY)
+configure_file(bin/hppcolorlog.in ${CMAKE_BINARY_DIR}/bin/hppcolorlog @ONLY)
 
-INSTALL (FILES
-  etc/bashrc
-  DESTINATION etc/hpp-tools
-  )
+install(FILES etc/bashrc DESTINATION etc/hpp-tools)
 
-INSTALL (FILES
-  etc/bash/aliases.sh
-  etc/bash/functions.sh
-  etc/bash/completion.sh
-  DESTINATION etc/hpp-tools/bash
-  )
+install(FILES etc/bash/aliases.sh etc/bash/functions.sh etc/bash/completion.sh
+        DESTINATION etc/hpp-tools/bash)
 
-INSTALL (FILES
-  etc/highlight/log.lang
-  DESTINATION etc/hpp-tools/highlight
-  )
+install(FILES etc/highlight/log.lang DESTINATION etc/hpp-tools/highlight)
 
-INSTALL (FILES
-  ${CMAKE_BINARY_DIR}/bin/hpplog
-  ${CMAKE_BINARY_DIR}/bin/hpplesslog
-  ${CMAKE_BINARY_DIR}/bin/hppcolorlog
-  ${CMAKE_BINARY_DIR}/bin/recursivegit
-  bin/change_develconfig
-  bin/hppautorestart
-  bin/hpp_run_benchmark
-  bin/interrupt-planning
-  bin/shutdown-hpp
-  bin/hppmake
-  bin/display_urdf
-  PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-  DESTINATION bin
-  )
+install(
+  FILES ${CMAKE_BINARY_DIR}/bin/hpplog
+        ${CMAKE_BINARY_DIR}/bin/hpplesslog
+        ${CMAKE_BINARY_DIR}/bin/hppcolorlog
+        ${CMAKE_BINARY_DIR}/bin/recursivegit
+        bin/change_develconfig
+        bin/hppautorestart
+        bin/hpp_run_benchmark
+        bin/interrupt-planning
+        bin/shutdown-hpp
+        bin/hppmake
+        bin/display_urdf
+  PERMISSIONS
+    OWNER_READ
+    OWNER_WRITE
+    OWNER_EXECUTE
+    GROUP_READ
+    GROUP_EXECUTE
+    WORLD_READ
+    WORLD_EXECUTE
+  DESTINATION bin)
 
-INSTALL (FILES install/README
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/hpp-tools/hppcd)
+install(FILES install/README
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/hpp-tools/hppcd)
 
-FOREACH(FILE __init__.py walkgen_plot.py)
-  PYTHON_INSTALL_ON_SITE(hpp/wholebody ${FILE}
-    )
-ENDFOREACH()
+foreach(FILE __init__.py walkgen_plot.py)
+  python_install_on_site(hpp/wholebody ${FILE})
+endforeach()
 
-ADD_SUBDIRECTORY (gdb)
+add_subdirectory(gdb)
 
 # Add a target that creates some default links
-CONFIGURE_FILE (${CMAKE_SOURCE_DIR}/install/hppcd-defaults
-  ${CMAKE_BINARY_DIR}/install/hppcd-defaults
-  @ONLY)
-ADD_CUSTOM_TARGET (hppcd-defaults
-  COMMAND ${CMAKE_BINARY_DIR}/install/hppcd-defaults
-  )
+configure_file(${CMAKE_SOURCE_DIR}/install/hppcd-defaults
+               ${CMAKE_BINARY_DIR}/install/hppcd-defaults @ONLY)
+add_custom_target(hppcd-defaults
+                  COMMAND ${CMAKE_BINARY_DIR}/install/hppcd-defaults)

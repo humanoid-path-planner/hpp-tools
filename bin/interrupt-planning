@@ -2,8 +2,9 @@
 
 import sys
 from hpp.corbaserver import Client
+
 try:
-    cl = Client (context=sys.argv[1])
+    cl = Client(context=sys.argv[1])
 except IndexError:
-    cl = Client ()
-cl.problem.interruptPathPlanning ()
+    cl = Client()
+cl.problem.interruptPathPlanning()
