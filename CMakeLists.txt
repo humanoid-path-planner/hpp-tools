@@ -41,6 +41,7 @@ else()
   endif()
 endif()
 
+include(GNUInstallDirs)
 include("${JRL_CMAKE_MODULES}/base.cmake")
 include("${JRL_CMAKE_MODULES}/python.cmake")
 
