@@ -17,6 +17,7 @@ cmake_minimum_required(VERSION 3.22)
 set(PROJECT_NAME hpp-tools)
 set(PROJECT_DESCRIPTION "Tools for HPP.")
 set(PROJECT_URL "https://github.com/humanoid-path-planner/hpp-tools")
+set(PROJECT_USE_CMAKE_EXPORT TRUE)
 
 # Check if the submodule cmake have been initialized
 set(JRL_CMAKE_MODULES "${CMAKE_CURRENT_LIST_DIR}/cmake")
@@ -41,9 +42,11 @@ else()
   endif()
 endif()
 
-include(GNUInstallDirs)
 include("${JRL_CMAKE_MODULES}/base.cmake")
 include("${JRL_CMAKE_MODULES}/python.cmake")
+
+compute_project_args(PROJECT_ARGS LANGUAGES CXX)
+project(${PROJECT_NAME} ${PROJECT_ARGS})
 
 set(PYTHON_COMPONENTS Interpreter Development.Module NumPy)
 findpython()
@@ -96,3 +99,11 @@ configure_file(${CMAKE_SOURCE_DIR}/install/hppcd-defaults
                ${CMAKE_BINARY_DIR}/install/hppcd-defaults @ONLY)
 add_custom_target(hppcd-defaults
                   COMMAND ${CMAKE_BINARY_DIR}/install/hppcd-defaults)
+
+if(NOT BUILD_STANDALONE_PYTHON_INTERFACE)
+  add_library(${PROJECT_NAME} INTERFACE)
+  install(
+    TARGETS ${PROJECT_NAME}
+    EXPORT ${TARGETS_EXPORT_NAME}
+    DESTINATION lib)
+endif()
