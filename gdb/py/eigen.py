@@ -337,17 +337,17 @@ class EigenQuaternionPrinter:
 
 
 def build_eigen_dictionary():
-    pretty_printers_dict[re.compile("^Eigen::Quaternion<.*>$")] = (
-        lambda val: EigenQuaternionPrinter(val)
+    pretty_printers_dict[re.compile("^Eigen::Quaternion<.*>$")] = lambda val: (
+        EigenQuaternionPrinter(val)
     )
     pretty_printers_dict[re.compile("^Eigen::Ref<.*>$")] = lambda val: EigenRefPrinter(
         "Ref", val
     )
-    pretty_printers_dict[re.compile("^Eigen::Matrix<.*>$")] = (
-        lambda val: EigenMatrixPrinter("Matrix", val)
+    pretty_printers_dict[re.compile("^Eigen::Matrix<.*>$")] = lambda val: (
+        EigenMatrixPrinter("Matrix", val)
     )
-    pretty_printers_dict[re.compile("^Eigen::Array<.*>$")] = (
-        lambda val: EigenMatrixPrinter("Array", val)
+    pretty_printers_dict[re.compile("^Eigen::Array<.*>$")] = lambda val: (
+        EigenMatrixPrinter("Array", val)
     )
 
 
