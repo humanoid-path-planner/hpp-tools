@@ -1,5 +1,5 @@
 {
-  description = "CHANGEME";
+  description = "Tools for HPP";
 
   inputs = {
     gepetto.url = "github:gepetto/nix";
@@ -13,20 +13,30 @@
 
   outputs =
     inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = import inputs.systems;
-      imports = [ inputs.gepetto.flakeModule ];
-      perSystem =
-        {
-          pkgs,
-          self',
-          ...
-        }:
-        {
-          packages = {
-            default = self'.packages.hpp-tools;
-            hpp-tools = pkgs.callPackage ./. { };
-          };
-        };
-    };
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } (
+      { lib, ... }:
+      {
+        systems = import inputs.systems;
+        imports = [
+          inputs.gepetto.flakeModule
+          {
+            gazebros2nix.overrides.hpp-tools = _final: {
+              src = lib.fileset.toSource {
+                root = ./.;
+                fileset = lib.fileset.unions [
+                  ./bin
+                  ./blender
+                  ./CMakeLists.txt
+                  ./etc
+                  ./gdb
+                  ./hpp
+                  ./install
+                  ./package.xml
+                ];
+              };
+            };
+          }
+        ];
+      }
+    );
 }
