@@ -48,7 +48,7 @@ include("${JRL_CMAKE_MODULES}/python.cmake")
 compute_project_args(PROJECT_ARGS LANGUAGES CXX)
 project(${PROJECT_NAME} ${PROJECT_ARGS})
 
-set(PYTHON_COMPONENTS Interpreter Development.Module NumPy)
+set(PYTHON_COMPONENTS Interpreter Development.Module)
 findpython()
 
 configure_file(bin/recursivegit ${CMAKE_BINARY_DIR}/bin/recursivegit @ONLY)
