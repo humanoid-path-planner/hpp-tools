@@ -11,16 +11,25 @@
 # details.  You should have received a copy of the GNU Lesser General Public
 # License along with hpp-tools  If not, see <http://www.gnu.org/licenses/>.
 
-option(GDB_HAS_PYTHON_27
-       "Install module to send configuration to gepetto-viewer from gdb" OFF)
+option(
+    GDB_HAS_PYTHON_27
+    "Install module to send configuration to gepetto-viewer from gdb"
+    OFF
+)
 
 configure_file(gdbinit.in ${CMAKE_CURRENT_BINARY_DIR}/gdbinit @ONLY)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/gdbinit
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/gdb)
+install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/gdbinit
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/gdb
+)
 
-install(FILES py/hpp_gepetto_viewer.py py/eigen.py py/__init__.py
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/gdb/py)
+install(
+    FILES py/hpp_gepetto_viewer.py py/eigen.py py/__init__.py
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/gdb/py
+)
 
-install(FILES printers/stl_container_printers
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/gdb/printers)
+install(
+    FILES printers/stl_container_printers
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/gdb/printers
+)
