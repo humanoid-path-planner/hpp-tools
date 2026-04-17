@@ -1,7 +1,7 @@
 <?xml version='1.0'?>
  <package format='2'>
  <name>hpp-tools</name>
- <version>7.0.0</version>
+ <version>8.0.0</version>
  <description>Tools for the HPP project. </description>
 
  <maintainer email='hpp@laas.fr'>Joseph Mirabel</maintainer>
