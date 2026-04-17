@@ -1,42 +1,28 @@
 {
   description = "Tools for HPP";
 
-  inputs = {
-    gepetto.url = "github:gepetto/nix";
-    gazebros2nix.follows = "gepetto/gazebros2nix";
-    flake-parts.follows = "gepetto/flake-parts";
-    nixpkgs.follows = "gepetto/nixpkgs";
-    nix-ros-overlay.follows = "gepetto/nix-ros-overlay";
-    systems.follows = "gepetto/systems";
-    treefmt-nix.follows = "gepetto/treefmt-nix";
-  };
+  inputs.gepetto.url = "github:gepetto/nix";
 
   outputs =
     inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } (
+    inputs.gepetto.lib.mkFlakoboros inputs (
       { lib, ... }:
       {
-        systems = import inputs.systems;
-        imports = [
-          inputs.gepetto.flakeModule
-          {
-            gazebros2nix.overrides.hpp-tools = _final: {
-              src = lib.fileset.toSource {
-                root = ./.;
-                fileset = lib.fileset.unions [
-                  ./bin
-                  ./blender
-                  ./CMakeLists.txt
-                  ./etc
-                  ./gdb
-                  ./hpp
-                  ./install
-                  ./package.xml
-                ];
-              };
-            };
-          }
-        ];
+        overrideAttrs.hpp-tools = {
+          src = lib.fileset.toSource {
+            root = ./.;
+            fileset = lib.fileset.unions [
+              ./bin
+              ./blender
+              ./CMakeLists.txt
+              ./etc
+              ./gdb
+              ./hpp
+              ./install
+              ./package.xml
+            ];
+          };
+        };
       }
     );
 }
