@@ -1,16 +1,21 @@
 <?xml version='1.0'?>
- <package format='2'>
- <name>hpp-tools</name>
- <version>8.0.0</version>
- <description>Tools for the HPP project. </description>
+<package format='3'>
+  <name>hpp_tools</name>
+  <version>8.0.0</version>
+  <description>Tools for the HPP project</description>
+  <author>Joseph Mirabel</author>
+  <author>Florent Lamiraux</author>
+  <maintainer email='guilhem.saurel@laas.fr'>Guilhem Saurel</maintainer>
+  <license>LGPL-3.0-or-later</license>
 
- <maintainer email='hpp@laas.fr'>Joseph Mirabel</maintainer>
- <license>LGPL</license>
+  <url type='website'>http://github.com/humanoid-path-planner/hpp-tools</url>
 
- <!-- <url type='website'>http://github.com/humanoid-path-planner/hpp-tools </url> -->
+  <depend>python3</depend>
 
- <author>Joseph Mirabel</author>
- <author>Florent Lamiraux et al.</author>
+  <buildtool_depend>cmake</buildtool_depend>
+  <build_depend>jrl_cmakemodules</build_depend>
 
- <buildtool_depend>catkin</buildtool_depend>
+  <export>
+    <build_type>cmake</build_type>
+  </export>
  </package>
