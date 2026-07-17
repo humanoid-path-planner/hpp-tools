@@ -1,0 +1,19 @@
+[build-system]
+build-backend = "cmeel.build"
+requires = [
+  "cmeel[build]",
+  "jrl-cmakemodules"
+]
+
+[project]
+description = "Tools for the HPP project"
+license = "LGPL-3.0-only"
+name = "hpp-tools"
+version = "9.0.0"
+
+[tool.cmeel]
+build-number = 2
+has-binaries = false
+
+[tool.tomlsort]
+all = true
