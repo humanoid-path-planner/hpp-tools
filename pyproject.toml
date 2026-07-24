@@ -9,7 +9,7 @@ requires = [
 description = "Tools for the HPP project"
 license = "LGPL-3.0-only"
 name = "hpp-tools"
-version = "9.0.0"
+version = "9.0.2"
 
 [tool.cmeel]
 build-number = 2
